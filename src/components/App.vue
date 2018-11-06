@@ -1,7 +1,13 @@
 <template>
-	<h1>Hello, World!</h1>
+	<Dash></Dash>
 </template>
 
 <script>
-module.exports = {};
+const Dash = require('./Dash.vue');
+
+module.exports = {
+	components: {
+		Dash
+	}
+};
 </script>
