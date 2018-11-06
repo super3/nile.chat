@@ -1,0 +1,28 @@
+{
+  "name": "webapp-template",
+  "version": "1.0.0",
+  "description": "A template for Ovso web apps",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+	"prepare": "browserify -t vueify -e src/index.js | babel-minify --mangle false > public/bundle.js",
+	"dev": "watchify -t vueify -e src/index.js -o public/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ovsoinc/webapp-template.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ovsoinc/webapp-template/issues"
+  },
+  "homepage": "https://github.com/ovsoinc/webapp-template#readme",
+  "dependencies": {
+    "babel-minify": "^0.5.0",
+    "browserify": "^16.2.3",
+    "vue": "^2.5.17",
+    "vueify": "^9.4.1",
+    "watchify": "^3.11.0"
+  }
+}
