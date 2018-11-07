@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-	"prepare": "browserify -t vueify -e src/index.js | babel-minify --mangle false > public/bundle.js",
-	"dev": "watchify -t vueify -e src/index.js -o public/bundle.js"
+    "prepare": "browserify -t vueify -e src/index.js | babel-minify --mangle false > public/bundle.js",
+    "dev": "watchify -t vueify -e src/index.js -o public/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +21,12 @@
   "dependencies": {
     "babel-minify": "^0.5.0",
     "browserify": "^16.2.3",
+    "dog-names": "^1.0.2",
+    "ioredis": "^4.2.0",
+    "koa": "^2.6.1",
+    "koa-static": "^5.0.0",
+    "socket.io": "^2.1.1",
+    "socket.io-client": "^2.1.1",
     "vue": "^2.5.17",
     "vueify": "^9.4.1",
     "watchify": "^3.11.0"

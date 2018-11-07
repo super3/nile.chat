@@ -21,9 +21,6 @@
                 <svg class="fill-current h-10 w-10 block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"/></svg>
             </div>
         </div>
-
-
-
     </div>
     <div class="bg-indigo-darker text-purple-lighter flex-none w-64 pb-6 hidden md:block">
         <div class="text-white mb-2 mt-3 px-4 flex justify-between">
@@ -31,7 +28,7 @@
                 <h1 class="font-semibold text-xl leading-tight mb-1 truncate">big.chat</h1>
                 <div class="flex items-center mb-6">
                     <svg class="h-2 w-2 fill-current text-green mr-2" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
-                    <span class="text-white opacity-50 text-sm">Adam Wathan</span>
+                    <span class="text-white opacity-50 text-sm">{{user.name}}</span>
                 </div>
             </div>
             <div>
@@ -84,10 +81,12 @@
 </template>
 
 <script>
+const socket = require('socket.io-client')(location.origin);
 const Channel = require('./Channel.vue');
 
 module.exports = {
 	data: () => ({
+		user: {},
 		users: [
 			{
 				name: "Monty Anderson"
@@ -108,6 +107,14 @@ module.exports = {
 			}
 		]
 	}),
+	created() {
+		socket.emit('init', 'big.chat');
+
+		socket.on('user', user => {
+			console.log(user);
+			this.user = user;
+		});
+	},
 	components: {
 		Channel
 	}
