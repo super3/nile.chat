@@ -42,12 +42,15 @@
             <div class="px-4 mb-2 text-white flex justify-between items-center">
                 <div class="opacity-75">Channels</div>
                 <div>
-                    <svg class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                    <svg v-on:click="newChannel = ''" class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
                     </svg>
                 </div>
             </div>
-            <div class="bg-teal-dark py-1 px-4 text-white"># general</div>
+
+            <div v-for="channel in channels" class="bg-teal-dark py-1 px-4 text-white"># {{channel.name}}</div>
+
+			<div v-if="typeof newChannel === 'string'" class="bg-teal-dark py-1 px-4 text-white"># <input v-model="newChannel" v-on:keyup.13="createChannel" type="text"></div>
         </div>
         <div class="mb-8">
             <div class="px-4 mb-2 text-white flex justify-between items-center">
@@ -75,7 +78,7 @@
         </div>
     </div>
     <!-- Chat content -->
-	<Channel v-bind:channel="channels[0]"></Channel>
+	<Channel v-if="channels[0]" v-bind:channel="channels[0]" v-on:message="createMessage"></Channel>
 </div>
 
 	</div>
@@ -93,7 +96,8 @@ module.exports = {
 				name: "Monty Anderson"
 			}
 		],
-		channels: [
+		newChannel: false,
+		channels: [/*
 			{
 				name: "general",
 				description: "General company talk",
@@ -105,10 +109,30 @@ module.exports = {
 						text: "Hello, World!"
 					}
 				]
-			}
+			}*/
 		]
 	}),
+	methods: {
+		createChannel() {
+			socket.emit('channel', this.newChannel);
+			this.newChannel = false;
+		},
+		createMessage(text) {
+			socket.emit('message', this.channels[0].id, text);
+		}
+	},
 	created() {
+		socket.on('channel', channel => {
+			this.channels.push(channel);
+		});
+
+		socket.on('message', message => {
+			this.channels
+				.find(channel => channel.id === message.channel)
+				.messages
+					.push(message);
+		});
+
 		socket.emit('init', 'big.chat');
 
 		socket.on('user', user => {
