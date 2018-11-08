@@ -48,7 +48,7 @@
                 </div>
             </div>
 
-            <div v-for="channel in channels" class="bg-teal-dark py-1 px-4 text-white"># {{channel.name}}</div>
+            <div v-for="channel in channels" v-on:click="selectedChannel = channel.id" class="py-1 px-4 text-white"># {{channel.name}}</div>
 
 			<div v-if="typeof newChannel === 'string'" class="bg-teal-dark py-1 px-4 text-white"># <input v-model="newChannel" v-on:keyup.13="createChannel" type="text"></div>
         </div>
@@ -78,7 +78,7 @@
         </div>
     </div>
     <!-- Chat content -->
-	<Channel v-if="channels[0]" v-bind:channel="channels[0]" v-on:message="createMessage"></Channel>
+	<Channel v-if="selectedChannel !== undefined" v-bind:channel="channels.find(channel => channel.id === selectedChannel)" v-on:message="createMessage"></Channel>
 </div>
 
 	</div>
@@ -97,6 +97,7 @@ module.exports = {
 			}
 		],
 		newChannel: false,
+		selectedChannel: undefined,
 		channels: [/*
 			{
 				name: "general",
@@ -118,7 +119,7 @@ module.exports = {
 			this.newChannel = false;
 		},
 		createMessage(text) {
-			socket.emit('message', this.channels[0].id, text);
+			socket.emit('message', this.selectedChannel, text);
 		}
 	},
 	created() {
