@@ -34,7 +34,7 @@ io.on('connection', socket => {
 			const channel = new Channel(instance, name);
 			await channel.save();
 
-			for(const user in users) {
+			for(const user of users) {
 				user.emit('channel', await Channel.get(instance, channel.id));
 			}
 		});
