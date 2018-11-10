@@ -5,20 +5,14 @@
     <!-- Sidebar / channel list -->
     <div class="bg-indigo-darkest text-purple-lighter flex-none p-4 hidden md:block">
         <div class="cursor-pointer mb-4">
-            <div class="bg-white h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
-                <img src="https://twitter.com/tailwindcss/profile_image" alt="">
-            </div>
-            <div class="text-center text-white opacity-50 text-sm">&#8984;1</div>
-        </div>
-        <div class="cursor-pointer mb-4">
             <div class="bg-indigo-lighter opacity-25 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
-                L
+                B
             </div>
-            <div class="text-center text-white opacity-50 text-sm">&#8984;2</div>
+            <div class="text-center text-white opacity-50 text-sm">&#8984; 1</div>
         </div>
         <div class="cursor-pointer">
             <div class="bg-white opacity-25 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
-                <svg class="fill-current h-10 w-10 block" xmlns="http://www.w3.org/2000/svg" data-toggle="modal" data-target="#exampleModalCenter" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"/></svg>
+                <svg class="fill-current h-10 w-10 block" xmlns="http://www.w3.org/2000/svg" data-toggle="modal" data-target="#createChat" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"/></svg>
             </div>
         </div>
     </div>
@@ -33,9 +27,26 @@
             </div>
             <div>
 						<!-- Button trigger modal -->
-                <svg class="h-6 w-6 fill-current text-white opacity-25" viewBox="0 0 20 20">
-                    <path d="M14 8a4 4 0 1 0-8 0v7h8V8zM8.027 2.332A6.003 6.003 0 0 0 4 8v6l-3 2v1h18v-1l-3-2V8a6.003 6.003 0 0 0-4.027-5.668 2 2 0 1 0-3.945 0zM12 18a2 2 0 1 1-4 0h4z" fill-rule="evenodd" />
-                </svg>
+								<svg
+									 width="20"
+									 height="20"
+									 viewBox="0 0 24 24"
+									 fill="none"
+									 stroke="currentColor"
+									 stroke-width="2"
+									 stroke-linecap="round"
+									 stroke-linejoin="round"
+									 class="feather feather-settings opacity-25"
+									 data-toggle="modal" data-target="#exampleModalCenter"
+									 >
+									 <path
+											style=""
+											d="m 15,12 a 3,3 0 0 1 -3,3 3,3 0 0 1 -3,-3 3,3 0 0 1 3,-3 3,3 0 0 1 3,3 z"
+											id="circle3725" />
+									 <path
+											d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+											id="path3727" />
+								</svg>
             </div>
         </div>
         <div class="mb-8">
@@ -66,7 +77,7 @@
                 <span class="text-white opacity-75">{{user.name}}</span>
             </div>
         </div>
-        <div>
+        <!--<div>
             <div class="px-4 mb-2 text-white flex justify-between items-center">
                 <div class="opacity-75">Apps</div>
                 <div>
@@ -74,8 +85,14 @@
                         <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
                     </svg>
                 </div>
+
             </div>
-        </div>
+        </div>-->
+				<div>
+						<div class="px-4 mb-2 text-white flex justify-between items-center">
+								<button type="button" class="btn btn-block btn-outline-light" data-toggle="modal" data-target="#inviteModal">Invite</button>
+						</div>
+				</div>
     </div>
     <!-- Chat content -->
 	<Channel v-if="selectedChannel !== undefined" v-bind:channel="channels.find(channel => channel.id === selectedChannel)" v-on:message="createMessage"></Channel>
@@ -85,7 +102,7 @@
 </template>
 
 <script>
-const socket = require('socket.io-client')(location.origin);
+const socket = require('socket.io-client')('http://localhost:3000');
 const Channel = require('./Channel.vue');
 
 module.exports = {
