@@ -138,6 +138,9 @@ module.exports = {
 	created() {
 		socket.on('channel', channel => {
 			this.channels.push(channel);
+
+			if(this.selectedChannel === undefined)
+				this.selectedChannel = channel.id;
 		});
 
 		socket.on('message', message => {
