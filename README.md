@@ -1,4 +1,5 @@
 # nile.chat
+A chat for communities. 
 
 ## Install
 
