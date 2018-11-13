@@ -1,5 +1,6 @@
 const crypto = require('crypto');
 const http = require('http');
+const fs = require('mz/fs');
 const Koa = require('koa');
 const Static = require('koa-static');
 const Socket = require('socket.io');
@@ -80,11 +81,7 @@ io.on('connection', socket => {
 			}
 
 			if(text === '/help') {
-				const message = new Message(instance, channelId, user.id, `
-Here are the current commands available!
-1.) /name [your name]  ~~~~ Choose your account name
-2.) /avatar [url of desired image, recommended 50x50] ~~~ Choose your avatar image
-				`.trim());
+				const message = new Message(instance, channelId, user.id, await fs.readFile(`${__dirname}/help-readme`, 'utf8'));
 				await message.save();
 
 				for(const user of users) {
