@@ -76,7 +76,7 @@ io.on('connection', socket => {
 			await message.save();
 
 			for(const user of users) {
-				user.emit('message', await Message.get(instance, channelId, message.id));
+				user.emit('message', await Message.get(instance, channelId, message.id), true);
 			}
 
 			if(text === '/help') {

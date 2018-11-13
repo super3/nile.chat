@@ -136,6 +136,8 @@ module.exports = {
 		}
 	},
 	created() {
+		Notification.requestPermission();
+
 		socket.on('channel', channel => {
 			this.channels.push(channel);
 
@@ -143,11 +145,23 @@ module.exports = {
 				this.selectedChannel = channel.id;
 		});
 
-		socket.on('message', message => {
+		socket.on('message', (message, isNew) => {
 			this.channels
 				.find(channel => channel.id === message.channel)
 				.messages
 					.push(message);
+
+			console.log(isNew);
+
+			if(isNew === true) {
+				const needle = `@${this.user.name.toLowerCase()}`;
+
+				if(message.text.toLowerCase().includes(needle) === true) {
+					new Notification('nile.chat', {
+						body: `@${message.user.name} mentioned you`
+					});
+				}
+			}
 		});
 
 		socket.emit('init', 'big.chat', localStorage.getItem('user-key'));
