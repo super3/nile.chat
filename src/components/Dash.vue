@@ -88,10 +88,10 @@
 
             </div>
         </div>-->
-				<div>
-						<div class="px-4 mb-2 text-white flex justify-between items-center">
-								<button type="button" class="btn btn-block btn-outline-light" data-toggle="modal" data-target="#inviteModal">Invite</button>
-						</div>
+				<div class="flex px-3">
+						<button class="flex-grow hover:bg-white hover:text-black text-grey-lightest py-2 px-2 m-10 border rounded" data-toggle="modal" data-target="#inviteModal">
+						  Invite
+						</button>
 				</div>
     </div>
     <!-- Chat content -->
