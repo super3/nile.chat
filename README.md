@@ -1,6 +1,9 @@
 # nile.chat
 A chat for communities. 
 
+[![License](https://img.shields.io/badge/license-AGPLv3-blue.svg?label=license)](https://github.com/Storj/ovsoinc/nile.chat/blob/master/LICENSE)
+[![GitHub contributors](https://img.shields.io/github/contributors/nile.chat/zfaucet.svg)](https://github.com/ovsoinc/nile.chat/graphs/contributors)
+
 ## Install
 
 1. [Redis](https://redis.io/download#installation)
