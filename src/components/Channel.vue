@@ -54,7 +54,7 @@ module.exports = {
 	],
 	data: () => ({
 		message: "",
-		interval
+		interval: undefined
 	}),
 	methods: {
 		handleMessage() {
