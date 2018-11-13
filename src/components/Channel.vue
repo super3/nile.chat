@@ -27,7 +27,7 @@
                 <div class="flex-1 overflow-hidden">
                     <div>
                         <span class="font-bold">{{message.user.name}}</span>
-                        <span class="text-grey text-xs">{{message.time}}</span>
+                        <span class="text-grey text-xs">{{message.date | relativeDate}}</span>
                     </div>
                     <p class="text-black leading-normal">{{message.text}}</p>
                 </div>
@@ -46,12 +46,15 @@
 </template>
 
 <script>
+const relativeDate = require('relative-date');
+
 module.exports = {
 	props: [
 		"channel"
 	],
 	data: () => ({
-		message: ""
+		message: "",
+		interval
 	}),
 	methods: {
 		handleMessage() {
@@ -59,8 +62,17 @@ module.exports = {
 			this.message = "";
 		}
 	},
+	filters: {
+		relativeDate
+	},
+	created() {
+		this.interval = setInterval(() => this.$forceUpdate(), 5000);
+	},
 	updated() {
 		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+	},
+	beforeDestroy() {
+		clearInterval(this.interval);
 	}
 };
 </script>

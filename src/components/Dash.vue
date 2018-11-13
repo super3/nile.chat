@@ -102,7 +102,7 @@
 </template>
 
 <script>
-const socket = require('socket.io-client')('http://localhost:3000');
+const socket = require('socket.io-client')(location.origin + (location.port ? `:${location.port}` : ''));
 const Channel = require('./Channel.vue');
 
 module.exports = {

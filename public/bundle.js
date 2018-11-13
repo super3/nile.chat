@@ -4322,7 +4322,7 @@ Polling.prototype.uri = function () {
   return schema + '://' + (ipv6 ? '[' + this.hostname + ']' : this.hostname) + port + this.path + query;
 };
 
-},{"../transport":14,"component-inherit":11,"debug":21,"engine.io-parser":24,"parseqs":32,"xmlhttprequest-ssl":20,"yeast":54}],19:[function(require,module,exports){
+},{"../transport":14,"component-inherit":11,"debug":21,"engine.io-parser":24,"parseqs":32,"xmlhttprequest-ssl":20,"yeast":55}],19:[function(require,module,exports){
 (function (global){
 /**
  * Module dependencies.
@@ -4612,7 +4612,7 @@ WS.prototype.check = function () {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"../transport":14,"component-inherit":11,"debug":21,"engine.io-parser":24,"parseqs":32,"ws":7,"yeast":54}],20:[function(require,module,exports){
+},{"../transport":14,"component-inherit":11,"debug":21,"engine.io-parser":24,"parseqs":32,"ws":7,"yeast":55}],20:[function(require,module,exports){
 (function (global){
 // browser shim for xmlhttprequest module
 
@@ -6531,6 +6531,57 @@ process.chdir = function (dir) {
 process.umask = function() { return 0; };
 
 },{}],35:[function(require,module,exports){
+var relativeDate = (function(undefined){
+
+  var SECOND = 1000,
+      MINUTE = 60 * SECOND,
+      HOUR = 60 * MINUTE,
+      DAY = 24 * HOUR,
+      WEEK = 7 * DAY,
+      YEAR = DAY * 365,
+      MONTH = YEAR / 12;
+
+  var formats = [
+    [ 0.7 * MINUTE, 'just now' ],
+    [ 1.5 * MINUTE, 'a minute ago' ],
+    [ 60 * MINUTE, 'minutes ago', MINUTE ],
+    [ 1.5 * HOUR, 'an hour ago' ],
+    [ DAY, 'hours ago', HOUR ],
+    [ 2 * DAY, 'yesterday' ],
+    [ 7 * DAY, 'days ago', DAY ],
+    [ 1.5 * WEEK, 'a week ago'],
+    [ MONTH, 'weeks ago', WEEK ],
+    [ 1.5 * MONTH, 'a month ago' ],
+    [ YEAR, 'months ago', MONTH ],
+    [ 1.5 * YEAR, 'a year ago' ],
+    [ Number.MAX_VALUE, 'years ago', YEAR ]
+  ];
+
+  function relativeDate(input,reference){
+    !reference && ( reference = (new Date).getTime() );
+    reference instanceof Date && ( reference = reference.getTime() );
+    input instanceof Date && ( input = input.getTime() );
+    
+    var delta = reference - input,
+        format, i, len;
+
+    for(i = -1, len=formats.length; ++i < len; ){
+      format = formats[i];
+      if(delta < format[0]){
+        return format[2] == undefined ? format[1] : Math.round(delta/format[2]) + ' ' + format[1];
+      }
+    };
+  }
+
+  return relativeDate;
+
+})();
+
+if(typeof module != 'undefined' && module.exports){
+  module.exports = relativeDate;
+}
+
+},{}],36:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -6626,7 +6677,7 @@ exports.connect = lookup;
 exports.Manager = require('./manager');
 exports.Socket = require('./socket');
 
-},{"./manager":36,"./socket":38,"./url":39,"debug":40,"socket.io-parser":44}],36:[function(require,module,exports){
+},{"./manager":37,"./socket":39,"./url":40,"debug":41,"socket.io-parser":45}],37:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -7201,7 +7252,7 @@ Manager.prototype.onreconnect = function () {
   this.emitAll('reconnect', attempt);
 };
 
-},{"./on":37,"./socket":38,"backo2":3,"component-bind":9,"component-emitter":10,"debug":40,"engine.io-client":12,"indexof":31,"socket.io-parser":44}],37:[function(require,module,exports){
+},{"./on":38,"./socket":39,"backo2":3,"component-bind":9,"component-emitter":10,"debug":41,"engine.io-client":12,"indexof":31,"socket.io-parser":45}],38:[function(require,module,exports){
 
 /**
  * Module exports.
@@ -7227,7 +7278,7 @@ function on (obj, ev, fn) {
   };
 }
 
-},{}],38:[function(require,module,exports){
+},{}],39:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -7667,7 +7718,7 @@ Socket.prototype.binary = function (binary) {
   return this;
 };
 
-},{"./on":37,"component-bind":9,"component-emitter":10,"debug":40,"has-binary2":27,"parseqs":32,"socket.io-parser":44,"to-array":51}],39:[function(require,module,exports){
+},{"./on":38,"component-bind":9,"component-emitter":10,"debug":41,"has-binary2":27,"parseqs":32,"socket.io-parser":45,"to-array":52}],40:[function(require,module,exports){
 (function (global){
 
 /**
@@ -7746,13 +7797,13 @@ function url (uri, loc) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"debug":40,"parseuri":33}],40:[function(require,module,exports){
+},{"debug":41,"parseuri":33}],41:[function(require,module,exports){
 arguments[4][21][0].apply(exports,arguments)
-},{"./debug":41,"_process":34,"dup":21}],41:[function(require,module,exports){
+},{"./debug":42,"_process":34,"dup":21}],42:[function(require,module,exports){
 arguments[4][22][0].apply(exports,arguments)
-},{"dup":22,"ms":42}],42:[function(require,module,exports){
+},{"dup":22,"ms":43}],43:[function(require,module,exports){
 arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],43:[function(require,module,exports){
+},{"dup":23}],44:[function(require,module,exports){
 (function (global){
 /*global Blob,File*/
 
@@ -7897,7 +7948,7 @@ exports.removeBlobs = function(data, callback) {
 };
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./is-buffer":45,"isarray":48}],44:[function(require,module,exports){
+},{"./is-buffer":46,"isarray":49}],45:[function(require,module,exports){
 
 /**
  * Module dependencies.
@@ -8316,7 +8367,7 @@ function error(msg) {
   };
 }
 
-},{"./binary":43,"./is-buffer":45,"component-emitter":10,"debug":46,"isarray":48}],45:[function(require,module,exports){
+},{"./binary":44,"./is-buffer":46,"component-emitter":10,"debug":47,"isarray":49}],46:[function(require,module,exports){
 (function (global){
 
 module.exports = isBuf;
@@ -8344,15 +8395,15 @@ function isBuf(obj) {
 }
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{}],46:[function(require,module,exports){
+},{}],47:[function(require,module,exports){
 arguments[4][21][0].apply(exports,arguments)
-},{"./debug":47,"_process":34,"dup":21}],47:[function(require,module,exports){
+},{"./debug":48,"_process":34,"dup":21}],48:[function(require,module,exports){
 arguments[4][22][0].apply(exports,arguments)
-},{"dup":22,"ms":49}],48:[function(require,module,exports){
+},{"dup":22,"ms":50}],49:[function(require,module,exports){
 arguments[4][28][0].apply(exports,arguments)
-},{"dup":28}],49:[function(require,module,exports){
+},{"dup":28}],50:[function(require,module,exports){
 arguments[4][23][0].apply(exports,arguments)
-},{"dup":23}],50:[function(require,module,exports){
+},{"dup":23}],51:[function(require,module,exports){
 (function (setImmediate,clearImmediate){
 var nextTick = require('process/browser.js').nextTick;
 var apply = Function.prototype.apply;
@@ -8431,7 +8482,7 @@ exports.clearImmediate = typeof clearImmediate === "function" ? clearImmediate :
   delete immediateIds[id];
 };
 }).call(this,require("timers").setImmediate,require("timers").clearImmediate)
-},{"process/browser.js":34,"timers":50}],51:[function(require,module,exports){
+},{"process/browser.js":34,"timers":51}],52:[function(require,module,exports){
 module.exports = toArray
 
 function toArray(list, index) {
@@ -8446,7 +8497,7 @@ function toArray(list, index) {
     return array
 }
 
-},{}],52:[function(require,module,exports){
+},{}],53:[function(require,module,exports){
 var Vue // late bind
 var version
 var map = Object.create(null)
@@ -8691,7 +8742,7 @@ exports.reload = tryWrap(function (id, options) {
   })
 })
 
-},{}],53:[function(require,module,exports){
+},{}],54:[function(require,module,exports){
 (function (process,global,setImmediate){
 /*!
  * Vue.js v2.5.17
@@ -16729,7 +16780,7 @@ if (inBrowser) {
 module.exports = Vue;
 
 }).call(this,require('_process'),typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {},require("timers").setImmediate)
-},{"_process":34,"timers":50}],54:[function(require,module,exports){
+},{"_process":34,"timers":51}],55:[function(require,module,exports){
 'use strict';
 
 var alphabet = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_'.split('')
@@ -16799,7 +16850,7 @@ yeast.encode = encode;
 yeast.decode = decode;
 module.exports = yeast;
 
-},{}],55:[function(require,module,exports){
+},{}],56:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -16830,7 +16881,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-17be9eb2", __vue__options__)
   }
 })()}
-},{"./Dash.vue":57,"vue":53,"vue-hot-reload-api":52}],56:[function(require,module,exports){
+},{"./Dash.vue":58,"vue":54,"vue-hot-reload-api":53}],57:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -16880,12 +16931,15 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 //
 //
 
+const relativeDate = require('relative-date');
+
 module.exports = {
 	props: [
 		"channel"
 	],
 	data: () => ({
-		message: ""
+		message: "",
+		interval
 	}),
 	methods: {
 		handleMessage() {
@@ -16893,8 +16947,17 @@ module.exports = {
 			this.message = "";
 		}
 	},
+	filters: {
+		relativeDate
+	},
+	created() {
+		this.interval = setInterval(() => this.$forceUpdate(), 5000);
+	},
 	updated() {
 		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+	},
+	beforeDestroy() {
+		clearInterval(this.interval);
 	}
 };
 
@@ -16902,7 +16965,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"flex-1 flex flex-col bg-white overflow-hidden"},[_c('div',{staticClass:"border-b flex px-6 py-2 items-center flex-none"},[_c('div',{staticClass:"flex flex-col"},[_c('h3',{staticClass:"text-grey-darkest mb-1 font-extrabold"},[_vm._v("#"+_vm._s(_vm.channel.name))]),_vm._v(" "),_c('div',{staticClass:"text-grey-dark text-sm truncate"},[_vm._v("\n                    "+_vm._s(_vm.channel.description)+"\n                ")])]),_vm._v(" "),_c('div',{staticClass:"ml-auto hidden md:block"},[_c('div',{staticClass:"relative"},[_c('input',{staticClass:"appearance-none border border-grey rounded-lg pl-8 pr-4 py-2",attrs:{"type":"search","placeholder":"Search"}}),_vm._v(" "),_c('div',{staticClass:"absolute pin-y pin-l pl-3 flex items-center justify-center"},[_c('svg',{staticClass:"fill-current text-grey h-4 w-4",attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 20 20"}},[_c('path',{attrs:{"d":"M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"}})])])])])]),_vm._v(" "),_c('div',{ref:"chat",staticClass:"px-6 py-4 flex-1 overflow-y-scroll"},_vm._l((_vm.channel.messages),function(message){return _c('div',{staticClass:"flex items-start mb-4 text-sm"},[_c('img',{staticClass:"w-10 h-10 rounded mr-3",attrs:{"src":("https://api.adorable.io/avatars/285/" + (message.user.name) + ".png")}}),_vm._v(" "),_c('div',{staticClass:"flex-1 overflow-hidden"},[_c('div',[_c('span',{staticClass:"font-bold"},[_vm._v(_vm._s(message.user.name))]),_vm._v(" "),_c('span',{staticClass:"text-grey text-xs"},[_vm._v(_vm._s(message.time))])]),_vm._v(" "),_c('p',{staticClass:"text-black leading-normal"},[_vm._v(_vm._s(message.text))])])])})),_vm._v(" "),_c('div',{staticClass:"pb-6 px-4 flex-none"},[_c('div',{staticClass:"flex rounded-lg border-2 border-grey overflow-hidden"},[_c('span',{staticClass:"text-3xl text-grey border-r-2 border-grey p-2"},[_c('svg',{staticClass:"fill-current h-6 w-6 block",attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 20 20"}},[_c('path',{attrs:{"d":"M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"}})])]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.message),expression:"message"}],staticClass:"w-full px-4",attrs:{"placeholder":'Message #' + _vm.channel.name,"type":"text"},domProps:{"value":(_vm.message)},on:{"keyup":function($event){if(!('button' in $event)&&$event.keyCode!==13){ return null; }return _vm.handleMessage($event)},"input":function($event){if($event.target.composing){ return; }_vm.message=$event.target.value}}})])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"flex-1 flex flex-col bg-white overflow-hidden"},[_c('div',{staticClass:"border-b flex px-6 py-2 items-center flex-none"},[_c('div',{staticClass:"flex flex-col"},[_c('h3',{staticClass:"text-grey-darkest mb-1 font-extrabold"},[_vm._v("#"+_vm._s(_vm.channel.name))]),_vm._v(" "),_c('div',{staticClass:"text-grey-dark text-sm truncate"},[_vm._v("\n                    "+_vm._s(_vm.channel.description)+"\n                ")])]),_vm._v(" "),_c('div',{staticClass:"ml-auto hidden md:block"},[_c('div',{staticClass:"relative"},[_c('input',{staticClass:"appearance-none border border-grey rounded-lg pl-8 pr-4 py-2",attrs:{"type":"search","placeholder":"Search"}}),_vm._v(" "),_c('div',{staticClass:"absolute pin-y pin-l pl-3 flex items-center justify-center"},[_c('svg',{staticClass:"fill-current text-grey h-4 w-4",attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 20 20"}},[_c('path',{attrs:{"d":"M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"}})])])])])]),_vm._v(" "),_c('div',{ref:"chat",staticClass:"px-6 py-4 flex-1 overflow-y-scroll"},_vm._l((_vm.channel.messages),function(message){return _c('div',{staticClass:"flex items-start mb-4 text-sm"},[_c('img',{staticClass:"w-10 h-10 rounded mr-3",attrs:{"src":("https://api.adorable.io/avatars/285/" + (message.user.name) + ".png")}}),_vm._v(" "),_c('div',{staticClass:"flex-1 overflow-hidden"},[_c('div',[_c('span',{staticClass:"font-bold"},[_vm._v(_vm._s(message.user.name))]),_vm._v(" "),_c('span',{staticClass:"text-grey text-xs"},[_vm._v(_vm._s(_vm._f("relativeDate")(message.date)))])]),_vm._v(" "),_c('p',{staticClass:"text-black leading-normal"},[_vm._v(_vm._s(message.text))])])])})),_vm._v(" "),_c('div',{staticClass:"pb-6 px-4 flex-none"},[_c('div',{staticClass:"flex rounded-lg border-2 border-grey overflow-hidden"},[_c('span',{staticClass:"text-3xl text-grey border-r-2 border-grey p-2"},[_c('svg',{staticClass:"fill-current h-6 w-6 block",attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 20 20"}},[_c('path',{attrs:{"d":"M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"}})])]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.message),expression:"message"}],staticClass:"w-full px-4",attrs:{"placeholder":'Message #' + _vm.channel.name,"type":"text"},domProps:{"value":(_vm.message)},on:{"keyup":function($event){if(!('button' in $event)&&$event.keyCode!==13){ return null; }return _vm.handleMessage($event)},"input":function($event){if($event.target.composing){ return; }_vm.message=$event.target.value}}})])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -16911,10 +16974,10 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-a98ae8ee", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-a98ae8ee", __vue__options__)
+    hotAPI.reload("data-v-a98ae8ee", __vue__options__)
   }
 })()}
-},{"vue":53,"vue-hot-reload-api":52}],57:[function(require,module,exports){
+},{"relative-date":35,"vue":54,"vue-hot-reload-api":53}],58:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -17096,7 +17159,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
     hotAPI.reload("data-v-936acb08", __vue__options__)
   }
 })()}
-},{"./Channel.vue":56,"socket.io-client":35,"vue":53,"vue-hot-reload-api":52}],58:[function(require,module,exports){
+},{"./Channel.vue":57,"socket.io-client":36,"vue":54,"vue-hot-reload-api":53}],59:[function(require,module,exports){
 const Vue = require('vue');
 const App = require('./components/App.vue');
 
@@ -17108,4 +17171,4 @@ new Vue({
 	render: createElement => createElement('app')
 });
 
-},{"./components/App.vue":55,"vue":53}]},{},[58]);
+},{"./components/App.vue":56,"vue":54}]},{},[59]);
