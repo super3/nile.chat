@@ -29,7 +29,7 @@
                         <span class="font-bold">{{message.user.name}}</span>
                         <span class="text-grey text-xs">{{message.date | relativeDate}}</span>
                     </div>
-                    <p class="text-black leading-normal" style="white-space: pre;">{{message.text}}</p>
+                    <p class="text-black leading-normal" style="white-space: pre;" v-html="messageText(message)"></p>
                 </div>
             </div>
         </div>
@@ -47,6 +47,8 @@
 
 <script>
 const relativeDate = require('relative-date');
+
+const escape = require('../lib/escape');
 
 module.exports = {
 	props: [
@@ -66,6 +68,29 @@ module.exports = {
 		handleMessage() {
 			this.$emit('message', this.message);
 			this.message = "";
+		},
+		messageText(message) {
+			const text = escape(message.text);
+
+			/* https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url */
+
+			function isValidURL(str) {
+			   var a  = document.createElement('a');
+			   a.href = str;
+			   return (a.host && a.host != window.location.host);
+			}
+
+			return text.split(' ').map(word => {
+				if(word.startsWith('@')) {
+					return `<strong>${word}</strong>`;
+				}
+
+				if(isValidURL(word)) {
+					return `<a href="${word}">${word}</a>`;
+				}
+
+				return word;
+			}).join(' ');
 		}
 	},
 	filters: {
