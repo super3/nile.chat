@@ -56,19 +56,14 @@ module.exports = {
 	],
 	data: () => ({
 		message: "",
-		scrollNeeded: false,
 		interval: undefined,
 		docked: true
 	}),
-	watch: {
-		"channel.messages": function() {
-			this.scrollNeeded = true;
-		}
-	},
 	methods: {
 		handleMessage() {
 			this.$emit('message', this.message);
 			this.message = "";
+			this.docked = true;
 		},
 		messageText(message) {
 			const text = escape(message.text);
@@ -109,7 +104,6 @@ module.exports = {
 	updated() {
 		if(this.docked === true) {
 			this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
-			this.scrollNeeded = false;
 		}
 	},
 	beforeDestroy() {

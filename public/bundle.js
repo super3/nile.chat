@@ -16941,19 +16941,14 @@ module.exports = {
 	],
 	data: () => ({
 		message: "",
-		scrollNeeded: false,
 		interval: undefined,
 		docked: true
 	}),
-	watch: {
-		"channel.messages": function() {
-			this.scrollNeeded = true;
-		}
-	},
 	methods: {
 		handleMessage() {
 			this.$emit('message', this.message);
 			this.message = "";
+			this.docked = true;
 		},
 		messageText(message) {
 			const text = escape(message.text);
@@ -16994,7 +16989,6 @@ module.exports = {
 	updated() {
 		if(this.docked === true) {
 			this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
-			this.scrollNeeded = false;
 		}
 	},
 	beforeDestroy() {
@@ -17015,7 +17009,7 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-a98ae8ee", __vue__options__)
   } else {
-    hotAPI.reload("data-v-a98ae8ee", __vue__options__)
+    hotAPI.rerender("data-v-a98ae8ee", __vue__options__)
   }
 })()}
 },{"../lib/escape":60,"relative-date":35,"vue":54,"vue-hot-reload-api":53}],58:[function(require,module,exports){
