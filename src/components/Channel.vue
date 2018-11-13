@@ -68,6 +68,9 @@ module.exports = {
 	created() {
 		this.interval = setInterval(() => this.$forceUpdate(), 5000);
 	},
+	mounted() {
+		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+	},
 	updated() {
 		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
 	},
