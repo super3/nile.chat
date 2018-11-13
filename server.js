@@ -78,6 +78,19 @@ io.on('connection', socket => {
 			for(const user of users) {
 				user.emit('message', await Message.get(instance, channelId, message.id));
 			}
+
+			if(text === '/help') {
+				const message = new Message(instance, channelId, user.id, `
+Here are the current commands available!
+1.) /name [your name]  ~~~~ Choose your account name
+2.) /avatar [url of desired image, recommended 50x50] ~~~ Choose your avatar image
+				`.trim());
+				await message.save();
+
+				for(const user of users) {
+					user.emit('message', await Message.get(instance, channelId, message.id));
+				}
+			}
 		});
 	});
 });

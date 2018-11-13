@@ -29,7 +29,7 @@
                         <span class="font-bold">{{message.user.name}}</span>
                         <span class="text-grey text-xs">{{message.date | relativeDate}}</span>
                     </div>
-                    <p class="text-black leading-normal">{{message.text}}</p>
+                    <p class="text-black leading-normal" style="white-space: pre;">{{message.text}}</p>
                 </div>
             </div>
         </div>
