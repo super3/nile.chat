@@ -19,7 +19,7 @@
     <div class="bg-indigo-darker text-purple-lighter flex-none w-64 pb-6 hidden md:block">
         <div class="text-white mb-2 mt-3 px-4 flex justify-between">
             <div class="flex-auto">
-                <h1 class="font-semibold text-xl leading-tight mb-1 truncate">big.chat</h1>
+                <h1 class="font-semibold text-xl leading-tight mb-1 truncate">nile.chat</h1>
                 <div class="flex items-center mb-6">
                     <svg class="h-2 w-2 fill-current text-green mr-2" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
                     <span class="text-white opacity-50 text-sm">{{user.name}}</span>
