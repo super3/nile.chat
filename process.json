@@ -1,0 +1,16 @@
+{
+	apps: [{
+		name: "nile",
+		script: "server.js",
+		max_memory_restart: "256M",
+		watch: true,
+		env: {
+			NODE_ENV: "production",
+			DEBUG: "nile:*"
+		},
+		env_production: {
+			NODE_ENV: "production",
+			DEBUG: "nile:*"
+		}
+	}]
+}
