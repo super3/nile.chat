@@ -92,6 +92,10 @@ Here are the current commands available!
 				}
 			}
 		});
+
+		socket.on('disconnect', () => {
+			users.splice(users.indexOf(socket), 1);
+		});
 	});
 });
 
