@@ -54,8 +54,14 @@ module.exports = {
 	],
 	data: () => ({
 		message: "",
+		scrollNeeded: false,
 		interval: undefined
 	}),
+	watch: {
+		"channel.messages": function() {
+			this.scrollNeeded = true;
+		}
+	},
 	methods: {
 		handleMessage() {
 			this.$emit('message', this.message);
@@ -72,7 +78,10 @@ module.exports = {
 		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
 	},
 	updated() {
-		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+		if(this.scrollNeeded === true) {
+			this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+			this.scrollNeeded = false;
+		}
 	},
 	beforeDestroy() {
 		clearInterval(this.interval);
