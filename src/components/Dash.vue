@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div v-for="channel in channels" v-on:click="selectedChannel = channel.id" class="py-1 px-4 text-white"># {{channel.name}}</div>
+            <div v-for="channel in channels" v-on:click="selectedChannel = channel.id" v-bind:class="{ 'bg-teal-dark': selectedChannel === channel.id }" class="py-1 px-4 text-white"># {{channel.name}}</div>
 
 			<div v-if="typeof newChannel === 'string'" class="bg-teal-dark py-1 px-4 text-white"># <input v-model="newChannel" v-on:keyup.13="createChannel" type="text"></div>
         </div>
@@ -102,7 +102,7 @@
 </template>
 
 <script>
-const socket = require('socket.io-client')(location.origin + (location.port ? `:${location.port}` : ''));
+const socket = require('socket.io-client')(location.origin);
 const Channel = require('./Channel.vue');
 
 module.exports = {
