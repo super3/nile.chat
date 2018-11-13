@@ -1,7 +1,10 @@
+const crypto = require('crypto');
 const http = require('http');
 const Koa = require('koa');
 const Static = require('koa-static');
 const Socket = require('socket.io');
+
+const redis = require('./lib/redis');
 
 const User = require('./lib/User');
 const Channel = require('./lib/Channel');
@@ -18,11 +21,28 @@ const io = new Socket(server);
 const users = [];
 
 io.on('connection', socket => {
-	socket.on('init', async instance => {
+	socket.on('init', async (instance, userKey) => {
 		users.push(socket);
 
-		const user = new User(instance);
-		await user.save();
+		const user = await (async () => {
+			const userId = await redis.get(`${instance}:user-key:${userKey}`);
+
+			if(userId !== null) {
+				const user = await User.get(instance, userId);
+
+				return user;
+			} else {
+				const user = new User(instance);
+				await user.save();
+
+				const userKey = crypto.randomBytes(32).toString('base64');
+				await redis.set(`${instance}:user-key:${userKey}`, user.id);
+
+				socket.emit('user-key', userKey);
+
+				return user;
+			}
+		})();
 
 		socket.emit('user', user);
 
@@ -43,6 +63,8 @@ io.on('connection', socket => {
 			if(text.startsWith('/name')) {
 				user.name = text.split(' ')[1] || user.name;
 				await user.save();
+
+				socket.emit('user', user);
 			}
 
 			const message = new Message(instance, channelId, user.id, text);

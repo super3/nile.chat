@@ -17143,11 +17143,15 @@ module.exports = {
 					.push(message);
 		});
 
-		socket.emit('init', 'big.chat');
+		socket.emit('init', 'big.chat', localStorage.getItem('user-key'));
 
 		socket.on('user', user => {
 			console.log(user);
 			this.user = user;
+		});
+
+		socket.on('user-key', userKey => {
+			localStorage.setItem('user-key', userKey);
 		});
 	},
 	components: {
