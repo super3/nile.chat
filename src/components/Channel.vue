@@ -20,7 +20,7 @@
             </div>
         </div>
         <!-- Chat messages -->
-        <div class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
+        <div v-on:scroll="scroll" class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
             <div v-for="message in channel.messages" class="flex items-start mb-4 text-sm">
                 <img v-bind:src="message.user.avatar || `https://api.adorable.io/avatars/285/${message.user.name}.png`" class="w-10 h-10 rounded mr-3">
 
@@ -57,7 +57,8 @@ module.exports = {
 	data: () => ({
 		message: "",
 		scrollNeeded: false,
-		interval: undefined
+		interval: undefined,
+		docked: true
 	}),
 	watch: {
 		"channel.messages": function() {
@@ -91,6 +92,9 @@ module.exports = {
 
 				return word;
 			}).join(' ');
+		},
+		scroll() {
+			this.docked = this.$refs.chat.scrollTop === (this.$refs.chat.scrollHeight - this.$refs.chat.offsetHeight);
 		}
 	},
 	filters: {
@@ -103,7 +107,7 @@ module.exports = {
 		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
 	},
 	updated() {
-		if(this.scrollNeeded === true) {
+		if(this.docked === true) {
 			this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
 			this.scrollNeeded = false;
 		}
