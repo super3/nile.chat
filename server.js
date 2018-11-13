@@ -67,6 +67,11 @@ io.on('connection', socket => {
 				socket.emit('user', user);
 			}
 
+			if(text.startsWith('/avatar')) {
+				user.avatar = text.split(' ')[1] || undefined;
+				await user.save();
+			}
+
 			const message = new Message(instance, channelId, user.id, text);
 			await message.save();
 
