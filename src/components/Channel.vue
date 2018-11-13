@@ -80,13 +80,13 @@ module.exports = {
 			   return (a.host && a.host != window.location.host);
 			}
 
-			return text.split(' ').map(word => {
+			return text.trim().split(' ').map(word => {
 				if(word.startsWith('@')) {
 					return `<strong>${word}</strong>`;
 				}
 
 				if(isValidURL(word)) {
-					return `<a href="${word}">${word}</a>`;
+					return `<a href="${word}" target="_blank">${word}</a>`;
 				}
 
 				return word;
