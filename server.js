@@ -40,6 +40,11 @@ io.on('connection', socket => {
 		});
 
 		socket.on('message', async (channelId, text) => {
+			if(text.startsWith('/name')) {
+				user.name = text.split(' ')[1] || user.name;
+				await user.save();
+			}
+
 			const message = new Message(instance, channelId, user.id, text);
 			await message.save();
 
