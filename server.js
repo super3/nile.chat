@@ -64,8 +64,16 @@ io.on('connection', socket => {
 
 		socket.on('message', async (channelId, text) => {
 			if(text.startsWith('/name')) {
-				user.name = text.split(' ')[1] || user.name;
-				await user.save();
+				const name = text.split(' ')[1];
+
+				const added = await redis.sadd(`${instance}:names`, name);
+
+				if(added === 1) {
+					await redis.srem(`${instance}:names`, user.name);
+
+					user.name = name;
+					await user.save();
+				}
 
 				socket.emit('user', user);
 			}
