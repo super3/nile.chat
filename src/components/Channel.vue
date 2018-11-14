@@ -21,17 +21,9 @@
         </div>
         <!-- Chat messages -->
         <div v-on:scroll="scroll" class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
-            <div v-for="message in channel.messages" class="flex items-start mb-4 text-sm">
-                <img v-bind:src="message.user.avatar || `https://api.adorable.io/avatars/285/${message.user.name}.png`" class="w-10 h-10 rounded mr-3">
-
-                <div class="flex-1 overflow-hidden">
-                    <div>
-                        <span class="font-bold">{{message.user.name}}</span>
-                        <span class="text-grey text-xs">{{message.date | relativeDate}}</span>
-                    </div>
-                    <p class="text-black leading-normal" style="white-space: pre;" v-html="messageText(message)"></p>
-                </div>
-            </div>
+			<div v-for="message in channel.messages">
+				<Message v-bind:message="message"></Message>
+			</div>
         </div>
 
 		<div class="pb-6 px-4 flex-none">
@@ -46,9 +38,7 @@
 </template>
 
 <script>
-const relativeDate = require('relative-date');
-
-const escape = require('../lib/escape');
+const Message = require('./Message.vue');
 
 module.exports = {
 	props: [
@@ -65,35 +55,9 @@ module.exports = {
 			this.message = "";
 			this.docked = true;
 		},
-		messageText(message) {
-			const text = escape(message.text);
-
-			/* https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url */
-
-			function isValidURL(str) {
-			   var a  = document.createElement('a');
-			   a.href = str;
-			   return (a.host && a.host != window.location.host);
-			}
-
-			return text.trim().split(' ').map(word => {
-				if(word.startsWith('@')) {
-					return `<strong>${word}</strong>`;
-				}
-
-				if(isValidURL(word)) {
-					return `<a href="${word}" target="_blank">${word}</a>`;
-				}
-
-				return word;
-			}).join(' ');
-		},
 		scroll() {
 			this.docked = this.$refs.chat.scrollTop === (this.$refs.chat.scrollHeight - this.$refs.chat.offsetHeight);
 		}
-	},
-	filters: {
-		relativeDate
 	},
 	created() {
 		this.interval = setInterval(() => this.$forceUpdate(), 5000);
@@ -108,6 +72,9 @@ module.exports = {
 	},
 	beforeDestroy() {
 		clearInterval(this.interval);
+	},
+	components: {
+		Message
 	}
 };
 </script>

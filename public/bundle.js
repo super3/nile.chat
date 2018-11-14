@@ -16922,18 +16922,8 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 
-const relativeDate = require('relative-date');
-
-const escape = require('../lib/escape');
+const Message = require('./Message.vue');
 
 module.exports = {
 	props: [
@@ -16950,35 +16940,9 @@ module.exports = {
 			this.message = "";
 			this.docked = true;
 		},
-		messageText(message) {
-			const text = escape(message.text);
-
-			/* https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url */
-
-			function isValidURL(str) {
-			   var a  = document.createElement('a');
-			   a.href = str;
-			   return (a.host && a.host != window.location.host);
-			}
-
-			return text.trim().split(' ').map(word => {
-				if(word.startsWith('@')) {
-					return `<strong>${word}</strong>`;
-				}
-
-				if(isValidURL(word)) {
-					return `<a href="${word}" target="_blank">${word}</a>`;
-				}
-
-				return word;
-			}).join(' ');
-		},
 		scroll() {
 			this.docked = this.$refs.chat.scrollTop === (this.$refs.chat.scrollHeight - this.$refs.chat.offsetHeight);
 		}
-	},
-	filters: {
-		relativeDate
 	},
 	created() {
 		this.interval = setInterval(() => this.$forceUpdate(), 5000);
@@ -16993,6 +16957,9 @@ module.exports = {
 	},
 	beforeDestroy() {
 		clearInterval(this.interval);
+	},
+	components: {
+		Message
 	}
 };
 
@@ -17000,7 +16967,7 @@ module.exports = {
 if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
-__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"flex-1 flex flex-col bg-white overflow-hidden"},[_c('div',{staticClass:"border-b flex px-6 py-2 items-center flex-none"},[_c('div',{staticClass:"flex flex-col"},[_c('h3',{staticClass:"text-grey-darkest mb-1 font-extrabold"},[_vm._v("#"+_vm._s(_vm.channel.name))]),_vm._v(" "),_c('div',{staticClass:"text-grey-dark text-sm truncate"},[_vm._v("\n                    "+_vm._s(_vm.channel.description)+"\n                ")])]),_vm._v(" "),_c('div',{staticClass:"ml-auto hidden md:block"},[_c('div',{staticClass:"relative"},[_c('input',{staticClass:"appearance-none border border-grey rounded-lg pl-8 pr-4 py-2",attrs:{"type":"search","placeholder":"Search"}}),_vm._v(" "),_c('div',{staticClass:"absolute pin-y pin-l pl-3 flex items-center justify-center"},[_c('svg',{staticClass:"fill-current text-grey h-4 w-4",attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 20 20"}},[_c('path',{attrs:{"d":"M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"}})])])])])]),_vm._v(" "),_c('div',{ref:"chat",staticClass:"px-6 py-4 flex-1 overflow-y-scroll",on:{"scroll":_vm.scroll}},_vm._l((_vm.channel.messages),function(message){return _c('div',{staticClass:"flex items-start mb-4 text-sm"},[_c('img',{staticClass:"w-10 h-10 rounded mr-3",attrs:{"src":message.user.avatar || ("https://api.adorable.io/avatars/285/" + (message.user.name) + ".png")}}),_vm._v(" "),_c('div',{staticClass:"flex-1 overflow-hidden"},[_c('div',[_c('span',{staticClass:"font-bold"},[_vm._v(_vm._s(message.user.name))]),_vm._v(" "),_c('span',{staticClass:"text-grey text-xs"},[_vm._v(_vm._s(_vm._f("relativeDate")(message.date)))])]),_vm._v(" "),_c('p',{staticClass:"text-black leading-normal",staticStyle:{"white-space":"pre"},domProps:{"innerHTML":_vm._s(_vm.messageText(message))}})])])})),_vm._v(" "),_c('div',{staticClass:"pb-6 px-4 flex-none"},[_c('div',{staticClass:"flex rounded-lg border-2 border-grey overflow-hidden"},[_c('span',{staticClass:"text-3xl text-grey border-r-2 border-grey p-2"},[_c('svg',{staticClass:"fill-current h-6 w-6 block",attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 20 20"}},[_c('path',{attrs:{"d":"M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"}})])]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.message),expression:"message"}],staticClass:"w-full px-4",attrs:{"placeholder":'Message #' + _vm.channel.name,"type":"text"},domProps:{"value":(_vm.message)},on:{"keyup":function($event){if(!('button' in $event)&&$event.keyCode!==13){ return null; }return _vm.handleMessage($event)},"input":function($event){if($event.target.composing){ return; }_vm.message=$event.target.value}}})])])])}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"flex-1 flex flex-col bg-white overflow-hidden"},[_c('div',{staticClass:"border-b flex px-6 py-2 items-center flex-none"},[_c('div',{staticClass:"flex flex-col"},[_c('h3',{staticClass:"text-grey-darkest mb-1 font-extrabold"},[_vm._v("#"+_vm._s(_vm.channel.name))]),_vm._v(" "),_c('div',{staticClass:"text-grey-dark text-sm truncate"},[_vm._v("\n                    "+_vm._s(_vm.channel.description)+"\n                ")])]),_vm._v(" "),_c('div',{staticClass:"ml-auto hidden md:block"},[_c('div',{staticClass:"relative"},[_c('input',{staticClass:"appearance-none border border-grey rounded-lg pl-8 pr-4 py-2",attrs:{"type":"search","placeholder":"Search"}}),_vm._v(" "),_c('div',{staticClass:"absolute pin-y pin-l pl-3 flex items-center justify-center"},[_c('svg',{staticClass:"fill-current text-grey h-4 w-4",attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 20 20"}},[_c('path',{attrs:{"d":"M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"}})])])])])]),_vm._v(" "),_c('div',{ref:"chat",staticClass:"px-6 py-4 flex-1 overflow-y-scroll",on:{"scroll":_vm.scroll}},_vm._l((_vm.channel.messages),function(message){return _c('div',[_c('Message',{attrs:{"message":message}})],1)})),_vm._v(" "),_c('div',{staticClass:"pb-6 px-4 flex-none"},[_c('div',{staticClass:"flex rounded-lg border-2 border-grey overflow-hidden"},[_c('span',{staticClass:"text-3xl text-grey border-r-2 border-grey p-2"},[_c('svg',{staticClass:"fill-current h-6 w-6 block",attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 20 20"}},[_c('path',{attrs:{"d":"M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"}})])]),_vm._v(" "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.message),expression:"message"}],staticClass:"w-full px-4",attrs:{"placeholder":'Message #' + _vm.channel.name,"type":"text"},domProps:{"value":(_vm.message)},on:{"keyup":function($event){if(!('button' in $event)&&$event.keyCode!==13){ return null; }return _vm.handleMessage($event)},"input":function($event){if($event.target.composing){ return; }_vm.message=$event.target.value}}})])])])}
 __vue__options__.staticRenderFns = []
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
@@ -17009,10 +16976,10 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   if (!module.hot.data) {
     hotAPI.createRecord("data-v-a98ae8ee", __vue__options__)
   } else {
-    hotAPI.rerender("data-v-a98ae8ee", __vue__options__)
+    hotAPI.reload("data-v-a98ae8ee", __vue__options__)
   }
 })()}
-},{"../lib/escape":60,"relative-date":35,"vue":54,"vue-hot-reload-api":53}],58:[function(require,module,exports){
+},{"./Message.vue":59,"vue":54,"vue-hot-reload-api":53}],58:[function(require,module,exports){
 ;(function(){
 //
 //
@@ -17162,12 +17129,12 @@ module.exports = {
 		});
 
 		socket.on('message', (message, isNew) => {
+			message.preview = null;
+
 			this.channels
 				.find(channel => channel.id === message.channel)
 				.messages
 					.push(message);
-
-			console.log(isNew);
 
 			if(isNew === true) {
 				const needle = `@${this.user.name.toLowerCase()}`;
@@ -17178,6 +17145,14 @@ module.exports = {
 					});
 				}
 			}
+		});
+
+		socket.on('message-preview', (instance, channelId, messageId, preview) => {
+			this.channels
+				.find(channel => channel.id === channelId)
+				.messages
+					.find(message => message.id === messageId)
+					.preview = preview;
 		});
 
 		socket.emit('init', 'big.chat', localStorage.getItem('user-key'));
@@ -17201,7 +17176,7 @@ if (module.exports.__esModule) module.exports = module.exports.default
 var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
 if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
 __vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"font-sans antialiased h-screen flex"},[_c('div',{staticClass:"bg-indigo-darkest text-purple-lighter flex-none p-4 hidden md:block"},[_vm._m(0),_vm._v(" "),_c('div',{staticClass:"cursor-pointer"},[_c('div',{staticClass:"bg-white opacity-25 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden"},[_c('svg',{staticClass:"fill-current h-10 w-10 block",attrs:{"xmlns":"http://www.w3.org/2000/svg","data-toggle":"modal","data-target":"#createChat","viewBox":"0 0 20 20"}},[_c('path',{attrs:{"d":"M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"}})])])])]),_vm._v(" "),_c('div',{staticClass:"bg-indigo-darker text-purple-lighter flex-none w-64 pb-6 hidden md:block"},[_c('div',{staticClass:"text-white mb-2 mt-3 px-4 flex justify-between"},[_c('div',{staticClass:"flex-auto"},[_c('h1',{staticClass:"font-semibold text-xl leading-tight mb-1 truncate"},[_vm._v("nile.chat")]),_vm._v(" "),_c('div',{staticClass:"flex items-center mb-6"},[_c('svg',{staticClass:"h-2 w-2 fill-current text-green mr-2",attrs:{"viewBox":"0 0 20 20"}},[_c('circle',{attrs:{"cx":"10","cy":"10","r":"10"}})]),_vm._v(" "),_c('span',{staticClass:"text-white opacity-50 text-sm"},[_vm._v(_vm._s(_vm.user.name))])])]),_vm._v(" "),_c('div',[_c('svg',{staticClass:"feather feather-settings opacity-25",attrs:{"width":"20","height":"20","viewBox":"0 0 24 24","fill":"none","stroke":"currentColor","stroke-width":"2","stroke-linecap":"round","stroke-linejoin":"round","data-toggle":"modal","data-target":"#exampleModalCenter"}},[_c('path',{attrs:{"d":"m 15,12 a 3,3 0 0 1 -3,3 3,3 0 0 1 -3,-3 3,3 0 0 1 3,-3 3,3 0 0 1 3,3 z","id":"circle3725"}}),_vm._v(" "),_c('path',{attrs:{"d":"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z","id":"path3727"}})])])]),_vm._v(" "),_c('div',{staticClass:"mb-8"},[_c('div',{staticClass:"px-4 mb-2 text-white flex justify-between items-center"},[_c('div',{staticClass:"opacity-75"},[_vm._v("Channels")]),_vm._v(" "),_c('div',[_c('svg',{staticClass:"fill-current h-4 w-4 opacity-50",attrs:{"xmlns":"http://www.w3.org/2000/svg","viewBox":"0 0 20 20"},on:{"click":function($event){_vm.newChannel = ''}}},[_c('path',{attrs:{"d":"M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z"}})])])]),_vm._v(" "),_vm._l((_vm.channels),function(channel){return _c('div',{staticClass:"py-1 px-4 text-white",class:{ 'bg-teal-dark': _vm.selectedChannel === channel.id },on:{"click":function($event){_vm.selectedChannel = channel.id}}},[_vm._v("# "+_vm._s(channel.name))])}),_vm._v(" "),(typeof _vm.newChannel === 'string')?_c('div',{staticClass:"bg-teal-dark py-1 px-4 text-white"},[_vm._v("# "),_c('input',{directives:[{name:"model",rawName:"v-model",value:(_vm.newChannel),expression:"newChannel"}],attrs:{"type":"text"},domProps:{"value":(_vm.newChannel)},on:{"keyup":function($event){if(!('button' in $event)&&$event.keyCode!==13){ return null; }return _vm.createChannel($event)},"input":function($event){if($event.target.composing){ return; }_vm.newChannel=$event.target.value}}})]):_vm._e()],2),_vm._v(" "),_c('div',{staticClass:"mb-8"},_vm._l((_vm.users),function(user){return _c('div',{staticClass:"flex items-center mb-3 px-4"},[_c('svg',{staticClass:"h-2 w-2 fill-current text-green mr-2",attrs:{"viewBox":"0 0 20 20"}},[_c('circle',{attrs:{"cx":"10","cy":"10","r":"10"}})]),_vm._v(" "),_c('span',{staticClass:"text-white opacity-75"},[_vm._v(_vm._s(user.name))])])})),_vm._v(" "),_vm._m(1)]),_vm._v(" "),(_vm.selectedChannel !== undefined)?_c('Channel',{attrs:{"channel":_vm.channels.find(function (channel) { return channel.id === _vm.selectedChannel; })},on:{"message":_vm.createMessage}}):_vm._e()],1)])}
-__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"cursor-pointer mb-4"},[_c('div',{staticClass:"bg-indigo-lighter opacity-25 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden"},[_vm._v("\n                B\n            ")]),_vm._v(" "),_c('div',{staticClass:"text-center text-white opacity-50 text-sm"},[_vm._v("⌘ 1")])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',[_c('div',{staticClass:"px-4 mb-2 text-white flex justify-between items-center"},[_c('button',{staticClass:"btn btn-block btn-outline-light",attrs:{"type":"button","data-toggle":"modal","data-target":"#inviteModal"}},[_vm._v("Invite")])])])}]
+__vue__options__.staticRenderFns = [function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"cursor-pointer mb-4"},[_c('div',{staticClass:"bg-indigo-lighter opacity-25 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden"},[_vm._v("\n                B\n            ")]),_vm._v(" "),_c('div',{staticClass:"text-center text-white opacity-50 text-sm"},[_vm._v("⌘ 1")])])},function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"flex px-3"},[_c('button',{staticClass:"flex-grow hover:bg-white hover:text-black text-grey-lightest py-2 px-2 m-10 border rounded",attrs:{"data-toggle":"modal","data-target":"#inviteModal"}},[_vm._v("\n\t\t\t\t\t\t  Invite\n\t\t\t\t\t\t")])])}]
 if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   hotAPI.install(require("vue"), true)
   if (!hotAPI.compatible) return
@@ -17213,6 +17188,81 @@ if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
   }
 })()}
 },{"./Channel.vue":57,"socket.io-client":36,"vue":54,"vue-hot-reload-api":53}],59:[function(require,module,exports){
+;(function(){
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+const relativeDate = require('relative-date');
+const escape = require('../lib/escape');
+
+module.exports = {
+	props: [
+		'message'
+	],
+	filters: {
+		relativeDate
+	},
+	computed: {
+		text() {
+			const text = escape(this.message.text);
+
+			/* https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url */
+
+			function isValidURL(str) {
+			   var a  = document.createElement('a');
+			   a.href = str;
+			   return (a.host && a.host != window.location.host);
+			}
+
+			return text.trim().split(' ').map(word => {
+				if(word.startsWith('@')) {
+					return `<strong>${word}</strong>`;
+				}
+
+				if(isValidURL(word)) {
+					return `<a href="${word}" target="_blank">${word}</a>`;
+				}
+
+				return word;
+			}).join(' ');
+		}
+	}
+};
+
+})()
+if (module.exports.__esModule) module.exports = module.exports.default
+var __vue__options__ = (typeof module.exports === "function"? module.exports.options: module.exports)
+if (__vue__options__.functional) {console.error("[vueify] functional components are not supported and should be defined in plain js files using render functions.")}
+__vue__options__.render = function render () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"flex items-start mb-4 text-sm"},[_c('img',{staticClass:"w-10 h-10 rounded mr-3",attrs:{"src":_vm.message.user.avatar || ("https://api.adorable.io/avatars/285/" + (_vm.message.user.name) + ".png")}}),_vm._v(" "),_c('div',{staticClass:"w-full overflow-hidden"},[_c('div',[_c('span',{staticClass:"font-bold"},[_vm._v(_vm._s(_vm.message.user.name))]),_vm._v(" "),_c('span',{staticClass:"text-grey text-xs"},[_vm._v(_vm._s(_vm._f("relativeDate")(_vm.message.date)))])]),_vm._v(" "),_c('p',{staticClass:"text-black leading-normal",staticStyle:{"white-space":"pre"},domProps:{"innerHTML":_vm._s(_vm.text)}})]),_vm._v(" "),(_vm.message.preview)?_c('div',{staticClass:"w-full overflow-hidden"},[_c('br'),_vm._v(" "),_c('img',{attrs:{"src":_vm.message.preview.url,"width":"50%"}})]):_vm._e()])}
+__vue__options__.staticRenderFns = []
+if (module.hot) {(function () {  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), true)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-66d8ec8d", __vue__options__)
+  } else {
+    hotAPI.rerender("data-v-66d8ec8d", __vue__options__)
+  }
+})()}
+},{"../lib/escape":61,"relative-date":35,"vue":54,"vue-hot-reload-api":53}],60:[function(require,module,exports){
 const Vue = require('vue');
 const App = require('./components/App.vue');
 
@@ -17224,7 +17274,7 @@ new Vue({
 	render: createElement => createElement('app')
 });
 
-},{"./components/App.vue":56,"vue":54}],60:[function(require,module,exports){
+},{"./components/App.vue":56,"vue":54}],61:[function(require,module,exports){
 module.exports = input => {
 	const decoder = document.createElement('div');
 
@@ -17234,4 +17284,4 @@ module.exports = input => {
 
 console.log(module.exports("yooo<h1>dsfsd"))
 
-},{}]},{},[59]);
+},{}]},{},[60]);

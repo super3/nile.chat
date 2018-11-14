@@ -146,12 +146,12 @@ module.exports = {
 		});
 
 		socket.on('message', (message, isNew) => {
+			message.preview = null;
+
 			this.channels
 				.find(channel => channel.id === message.channel)
 				.messages
 					.push(message);
-
-			console.log(isNew);
 
 			if(isNew === true) {
 				const needle = `@${this.user.name.toLowerCase()}`;
@@ -162,6 +162,14 @@ module.exports = {
 					});
 				}
 			}
+		});
+
+		socket.on('message-preview', (instance, channelId, messageId, preview) => {
+			this.channels
+				.find(channel => channel.id === channelId)
+				.messages
+					.find(message => message.id === messageId)
+					.preview = preview;
 		});
 
 		socket.emit('init', 'big.chat', localStorage.getItem('user-key'));

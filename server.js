@@ -1,6 +1,8 @@
 const crypto = require('crypto');
 const http = require('http');
+const url = require('url');
 const fs = require('mz/fs');
+const axios = require('axios');
 const Koa = require('koa');
 const Static = require('koa-static');
 const Socket = require('socket.io');
@@ -86,6 +88,30 @@ io.on('connection', socket => {
 
 				for(const user of users) {
 					user.emit('message', await Message.get(instance, channelId, message.id));
+				}
+			}
+
+			for(const word of text.trim().split(' ')) {
+				const result = url.parse(word);
+
+				if(result.hostname !== null) {
+					const response = await axios.get(word, {
+						// timeout: 5000,
+						// maxContentLength: 2000
+					});
+
+					const contentType = response.headers['content-type'];
+
+					if(contentType.startsWith('image')) {
+						console.log('sending preview');
+
+						for(const user of users) {
+							user.emit('message-preview', instance, channelId, message.id, {
+								type: 'image',
+								url: word
+							});
+						}
+					}
 				}
 			}
 		});
