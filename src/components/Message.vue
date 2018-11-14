@@ -7,7 +7,7 @@
 					<span class="font-bold">{{message.user.name}}</span>
 					<span class="text-grey text-xs">{{message.date | relativeDate}}</span>
 				</div>
-				<p class="text-black leading-normal" style="white-space: pre;" v-html="text"></p>
+				<p class="text-black leading-normal" v-html="text"></p>
 			</div>
 
 			<div class="w-full overflow-hidden" v-if="message.preview">
@@ -30,9 +30,8 @@ module.exports = {
 	},
 	computed: {
 		text() {
-			const text = escape(this.message.text);
-
-			/* https://stackoverflow.com/questions/5717093/check-if-a-javascript-string-is-a-url */
+			const text = escape(this.message.text)
+				.replace(new RegExp('\n', 'g'), '<br>');
 
 			function isValidURL(str) {
 			   var a  = document.createElement('a');
