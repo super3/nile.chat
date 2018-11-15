@@ -167,6 +167,10 @@ module.exports = {
 			this.user = user;
 		});
 
+		socket.on('online', online => {
+			this.users = online;
+		});
+
 		socket.on('user-key', userKey => {
 			localStorage.setItem(`user-key:${this.instance}`, userKey);
 		});

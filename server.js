@@ -47,7 +47,10 @@ io.on('connection', socket => {
 			}
 		})();
 
+		await user.goOnline();
+
 		socket.emit('user', user);
+		socket.emit('online', await User.findOnline(instance));
 
 		for(const channel of await Channel.find(instance)) {
 			socket.emit('channel', channel);
@@ -129,8 +132,9 @@ io.on('connection', socket => {
 			}
 		});
 
-		socket.on('disconnect', () => {
+		socket.on('disconnect', async () => {
 			users.splice(users.indexOf(socket), 1);
+			await user.goOffline();
 		});
 	});
 });
