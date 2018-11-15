@@ -4,7 +4,10 @@
   "description": "Chat for communities.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/**.js --exit",
+    "test": "npm run testsuite",
+    "testsuite": "./node_modules/.bin/mocha test/* --recursive --exit",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --exit",
+    "linter": "xo",
     "prepare": "browserify -t vueify -e src/index.js | babel-minify --mangle false > public/bundle.js",
     "dev": "watchify -t vueify -e src/index.js -o public/bundle.js"
   },
@@ -36,7 +39,9 @@
     "watchify": "^3.11.0"
   },
   "devDependencies": {
-    "xo": "^0.23.0"
+    "coveralls": "^3.0.2",
+    "xo": "^0.23.0",
+    "istanbul": "^1.1.0-alpha.1"
   },
   "xo": {
     "globals": [
