@@ -29,13 +29,16 @@ io.on('connection', socket => {
 		users.push(socket);
 
 		const user = await (async () => {
-			const userId = await redis.get(`${instance}:user-key:${userKey}`);
+			if(userKey) {
+				const userId = await redis.get(`${instance}:user-key:${userKey}`);
 
-			if (userId !== null) {
-				const user = await User.get(instance, userId);
+				if (userId !== null) {
+					const user = await User.get(instance, userId);
 
-				return user;
+					return user;
+				}
 			}
+
 			const user = new User(instance);
 			await user.save();
 
