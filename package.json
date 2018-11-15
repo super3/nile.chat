@@ -4,7 +4,7 @@
   "description": "Chat for communities.",
   "main": "index.js",
   "scripts": {
-    "test": "mocha test/**.js",
+    "test": "mocha test/**.js --exit",
     "prepare": "browserify -t vueify -e src/index.js | babel-minify --mangle false > public/bundle.js",
     "dev": "watchify -t vueify -e src/index.js -o public/bundle.js"
   },
