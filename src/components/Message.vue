@@ -11,8 +11,7 @@
 			</div>
 
 			<div class="w-full overflow-hidden" v-if="message.preview">
-				<br>
-				<img v-bind:src="message.preview.url" width="50%">
+				<a v-bind:href="message.preview.url"><img v-bind:src="message.preview.url" width="100%"></a>
 			</div>
 		</div>
 </template>
