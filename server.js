@@ -114,10 +114,15 @@ io.on('connection', socket => {
 						console.log('sending preview');
 
 						for(const user of users) {
-							user.emit('message-preview', instance, channelId, message.id, {
+							const preview = {
 								type: 'image',
 								url: word
-							});
+							};
+
+							user.emit('message-preview', instance, channelId, message.id, preview);
+							message.preview = preview;
+
+							await message.save();
 						}
 					}
 				}
