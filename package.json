@@ -4,7 +4,7 @@
   "description": "Chat for communities.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha test/**.js",
     "prepare": "browserify -t vueify -e src/index.js | babel-minify --mangle false > public/bundle.js",
     "dev": "watchify -t vueify -e src/index.js -o public/bundle.js"
   },
@@ -26,6 +26,7 @@
     "ioredis": "^4.2.0",
     "koa": "^2.6.2",
     "koa-static": "^5.0.0",
+    "mocha": "^5.2.0",
     "mz": "^2.7.0",
     "relative-date": "^1.1.3",
     "socket.io": "^2.1.1",
