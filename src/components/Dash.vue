@@ -160,7 +160,7 @@ module.exports = {
 					.preview = preview;
 		});
 
-		socket.emit('init', this.instance, localStorage.getItem('user-key'));
+		socket.emit('init', this.instance, localStorage.getItem(`user-key:${this.instance}`));
 
 		socket.on('user', user => {
 			console.log(user);
@@ -168,7 +168,7 @@ module.exports = {
 		});
 
 		socket.on('user-key', userKey => {
-			localStorage.setItem('user-key', userKey);
+			localStorage.setItem(`user-key:${this.instance}`, userKey);
 		});
 	},
 	components: {
