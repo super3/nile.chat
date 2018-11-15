@@ -34,5 +34,27 @@
     "vue": "^2.5.17",
     "vueify": "^9.4.1",
     "watchify": "^3.11.0"
+  },
+  "devDependencies": {
+    "xo": "^0.23.0"
+  },
+  "xo": {
+    "globals": [
+      "window",
+      "describe",
+      "it",
+      "before",
+      "document"
+    ],
+    "rules": {
+      "no-await-in-loop": "off",
+      "curly": "off",
+      "capitalized-comments": "off",
+      "no-new": "off",
+      "prefer-rest-params": "off",
+      "unicorn/filename-case": "off",
+      "keyword-spacing": "off",
+      "require-atomic-updates": "off"
+    }
   }
 }

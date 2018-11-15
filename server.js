@@ -4,7 +4,7 @@ const url = require('url');
 const fs = require('mz/fs');
 const axios = require('axios');
 const Koa = require('koa');
-const Static = require('koa-static');
+const koaStatic = require('koa-static');
 const Socket = require('socket.io');
 
 const redis = require('./lib/redis');
@@ -15,7 +15,7 @@ const Message = require('./lib/Message');
 
 const app = new Koa();
 
-app.use(Static('public'));
+app.use(koaStatic('public'));
 
 const server = http.createServer(app.callback());
 
@@ -24,27 +24,27 @@ const io = new Socket(server);
 const users = [];
 
 io.on('connection', socket => {
+	// eslint-disable-next-line no-use-before-define
 	socket.on('init', async (instance, userKey) => {
 		users.push(socket);
 
 		const user = await (async () => {
 			const userId = await redis.get(`${instance}:user-key:${userKey}`);
 
-			if(userId !== null) {
+			if (userId !== null) {
 				const user = await User.get(instance, userId);
 
 				return user;
-			} else {
-				const user = new User(instance);
-				await user.save();
-
-				const userKey = crypto.randomBytes(32).toString('base64');
-				await redis.set(`${instance}:user-key:${userKey}`, user.id);
-
-				socket.emit('user-key', userKey);
-
-				return user;
 			}
+			const user = new User(instance);
+			await user.save();
+
+			const userKey = crypto.randomBytes(32).toString('base64');
+			await redis.set(`${instance}:user-key:${userKey}`, user.id);
+
+			socket.emit('user-key', userKey);
+
+			return user;
 		})();
 
 		await user.goOnline();
@@ -52,7 +52,7 @@ io.on('connection', socket => {
 		socket.emit('user', user);
 		socket.emit('online', await User.findOnline(instance));
 
-		for(const channel of await Channel.find(instance)) {
+		for (const channel of await Channel.find(instance)) {
 			socket.emit('channel', channel);
 		}
 
@@ -60,18 +60,18 @@ io.on('connection', socket => {
 			const channel = new Channel(instance, name);
 			await channel.save();
 
-			for(const user of users) {
+			for (const user of users) {
 				user.emit('channel', await Channel.get(instance, channel.id));
 			}
 		});
 
 		socket.on('message', async (channelId, text) => {
-			if(text.startsWith('/name')) {
+			if (text.startsWith('/name')) {
 				const name = text.split(' ')[1];
 
 				const added = await redis.sadd(`${instance}:names`, name);
 
-				if(added === 1) {
+				if (added === 1) {
 					await redis.srem(`${instance}:names`, user.name);
 
 					user.name = name;
@@ -81,7 +81,7 @@ io.on('connection', socket => {
 				socket.emit('user', user);
 			}
 
-			if(text.startsWith('/avatar')) {
+			if (text.startsWith('/avatar')) {
 				user.avatar = text.split(' ')[1] || undefined;
 				await user.save();
 			}
@@ -89,34 +89,34 @@ io.on('connection', socket => {
 			const message = new Message(instance, channelId, user.id, text);
 			await message.save();
 
-			for(const user of users) {
+			for (const user of users) {
 				user.emit('message', await Message.get(instance, channelId, message.id), true);
 			}
 
-			if(text === '/help') {
+			if (text === '/help') {
 				const message = new Message(instance, channelId, user.id, await fs.readFile(`${__dirname}/help-readme`, 'utf8'));
 				await message.save();
 
-				for(const user of users) {
+				for (const user of users) {
 					user.emit('message', await Message.get(instance, channelId, message.id));
 				}
 			}
 
-			for(const word of text.trim().split(' ')) {
+			for (const word of text.trim().split(' ')) {
 				const result = url.parse(word);
 
-				if(result.hostname !== null) {
+				if (result.hostname !== null) {
 					const response = await axios.get(word, {
-						// timeout: 5000,
+						// Timeout: 5000,
 						// maxContentLength: 2000
 					});
 
 					const contentType = response.headers['content-type'];
 
-					if(contentType.startsWith('image')) {
+					if (contentType.startsWith('image')) {
 						console.log('sending preview');
 
-						for(const user of users) {
+						for (const user of users) {
 							const preview = {
 								type: 'image',
 								url: word
