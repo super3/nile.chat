@@ -6,7 +6,7 @@
     <div class="bg-indigo-darkest text-purple-lighter flex-none p-4 hidden md:block">
         <div class="cursor-pointer mb-4">
             <div class="bg-indigo-lighter opacity-25 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
-                N
+                1
             </div>
             <div class="text-center text-white opacity-50 text-sm">&#8984; 1</div>
         </div>
