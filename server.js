@@ -52,7 +52,15 @@ io.on('connection', socket => {
 		socket.emit('user', user);
 		socket.emit('online', await User.findOnline(instance));
 
-		for (const channel of await Channel.find(instance)) {
+		const onlineInterval = setInterval(async () => {
+			socket.emit('online', await User.findOnline(instance));
+		}, 30 * 1000);
+
+		socket.on('disconnect', () => {
+			clearInterval(onlineInterval);
+		});
+
+		for(const channel of await Channel.find(instance)) {
 			socket.emit('channel', channel);
 		}
 
