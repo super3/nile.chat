@@ -4,7 +4,7 @@ const url = require('url');
 const fs = require('mz/fs');
 const axios = require('axios');
 const Koa = require('koa');
-const Static = require('koa-static');
+const koaStatic = require('koa-static');
 const Socket = require('socket.io');
 
 const redis = require('./lib/redis');
@@ -15,7 +15,7 @@ const Message = require('./lib/Message');
 
 const app = new Koa();
 
-app.use(Static('public'));
+app.use(koaStatic('public'));
 
 const server = http.createServer(app.callback());
 
@@ -24,6 +24,7 @@ const io = new Socket(server);
 const users = [];
 
 io.on('connection', socket => {
+	// eslint-disable-next-line no-use-before-define
 	socket.on('init', async (instance, userKey) => {
 		users.push(socket);
 

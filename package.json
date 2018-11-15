@@ -52,7 +52,9 @@
       "capitalized-comments": "off",
       "no-new": "off",
       "prefer-rest-params": "off",
-      "unicorn/filename-case": "off"
+      "unicorn/filename-case": "off",
+      "keyword-spacing": "off",
+      "require-atomic-updates": "off"
     }
   }
 }
