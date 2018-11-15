@@ -174,6 +174,10 @@ module.exports = {
 		socket.on('user-key', userKey => {
 			localStorage.setItem(`user-key:${this.instance}`, userKey);
 		});
+
+		socket.on('disconnect', () => {
+			location.reload();
+		});
 	},
 	components: {
 		Channel
