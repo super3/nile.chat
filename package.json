@@ -37,5 +37,20 @@
   },
   "devDependencies": {
     "xo": "^0.23.0"
+  },
+  "xo": {
+    "globals": [
+      "window",
+      "describe",
+      "it",
+      "before"
+    ],
+    "rules": {
+      "no-await-in-loop": "off",
+      "curly": "off",
+      "capitalized-comments": "off",
+      "no-new": "off",
+      "prefer-rest-params": "off"
+    }
   }
 }
