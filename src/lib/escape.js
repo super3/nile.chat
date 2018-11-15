@@ -5,4 +5,4 @@ module.exports = input => {
 	return decoder.textContent;
 };
 
-console.log(module.exports("yooo<h1>dsfsd"))
+console.log(module.exports('yooo<h1>dsfsd'));
