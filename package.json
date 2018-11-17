@@ -15,8 +15,12 @@
     "type": "git",
     "url": "git+https://github.com/ovsoinc/nile.chat.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Shawn Wilkinson <me@super3.org> (http://super3.org)",
+  "contributors": [
+    "Shawn Wilkinson <me@super3.org> (http://super3.org)",
+    "Monty Anderson <work@montyanderson.net> (https://montyanderson.net)"
+  ],
+  "license": "AGPL-3.0",
   "bugs": {
     "url": "https://github.com/ovsoinc/nile.chat.git"
   },
