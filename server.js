@@ -28,7 +28,7 @@ io.on('connection', socket => {
 	socket.on('init', async (instance, userKey) => {
 		users.push(socket);
 
-		const user = await (async () => {
+		const user = await (async userKey => {
 			if(userKey) {
 				const userId = await redis.get(`${instance}:user-key:${userKey}`);
 
@@ -42,7 +42,7 @@ io.on('connection', socket => {
 			const user = new User(instance);
 			await user.save();
 
-			const userKey = crypto.randomBytes(32).toString('base64');
+			userKey = crypto.randomBytes(32).toString('base64');
 			await redis.set(`${instance}:user-key:${userKey}`, user.id);
 
 			socket.emit('user-key', userKey);
