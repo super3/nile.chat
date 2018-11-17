@@ -64,15 +64,15 @@
 			<div v-if="typeof newChannel === 'string'" class="bg-teal-dark py-1 px-4 text-white"># <input v-model="newChannel" v-on:keyup.13="createChannel" type="text"></div>
         </div>
         <div class="mb-8">
-            <!--<div class="px-4 mb-2 text-white flex justify-between items-center">
+            <div class="px-4 mb-2 text-white flex justify-between items-center">
                 <div class="opacity-75">Direct Messages</div>
                 <div>
                     <svg class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                         <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
                     </svg>
                 </div>
-            </div>-->
-            <div v-for="user in users" class="flex items-center mb-3 px-4">
+            </div>
+            <div v-for="user in users" class="flex items-center mb-1 px-4">
                 <svg class="h-2 w-2 fill-current text-green mr-2" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
                 <span class="text-white opacity-75">{{user.name}}</span>
             </div>
