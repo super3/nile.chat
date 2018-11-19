@@ -16957,7 +16957,7 @@ module.exports = {
 		clearInterval(this.interval);
 	},
 	mounted() {
-		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight - this.$refs.chat.offsetHeight;
 	},
 	updated() {
 		if(this.docked === true) {
