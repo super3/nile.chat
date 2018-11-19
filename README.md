@@ -25,7 +25,7 @@
   
 </p>
 
-![screenshot](https://raw.githubusercontent.com/ovsoinc/nile.chat/new-readme/screenshot.png)
+![screenshot](https://raw.githubusercontent.com/ovsoinc/nile.chat/master/screenshot.png)
 
 ## Install
 
