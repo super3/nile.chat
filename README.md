@@ -1,6 +1,3 @@
-# 
-A chat for communities. 
-
 <h1 align="center">
   nile.chat
   <br>
@@ -27,6 +24,8 @@ A chat for communities.
   </a>
   
 </p>
+
+![screenshot](https://raw.githubusercontent.com/ovsoinc/nile.chat/new-readme/screenshot.png)
 
 ## Install
 
