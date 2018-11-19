@@ -1,4 +1,6 @@
 <h1 align="center">
+  <img src="https://user-images.githubusercontent.com/28658000/48717578-b9160180-ebe7-11e8-930f-5dc3a698270f.png"/>
+  <br>
   nile.chat
   <br>
 </h1>
