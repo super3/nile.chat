@@ -16942,6 +16942,10 @@ module.exports = {
 		},
 		scroll() {
 			this.docked = this.$refs.chat.scrollTop === (this.$refs.chat.scrollHeight - this.$refs.chat.offsetHeight);
+
+			if(this.docked === true) {
+				this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+			}
 		}
 	},
 	created() {
