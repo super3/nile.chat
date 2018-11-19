@@ -24,6 +24,15 @@ module.exports = {
 	props: [
 		'message'
 	],
+	data: () => ({
+		interval: null
+	}),
+	created() {
+		this.interval = setInterval(() => this.$forceUpdate(), 5000);
+	},
+	beforeDestroy() {
+		clearInterval(this.interval);
+	},
 	filters: {
 		relativeDate
 	},

@@ -20,7 +20,7 @@
             </div>
         </div>
         <!-- Chat messages -->
-        <div v-on:scroll="scroll" class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
+        <div class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
 			<div v-for="message in channel.messages">
 				<Message v-bind:message="message"></Message>
 			</div>
@@ -46,8 +46,8 @@ module.exports = {
 	],
 	data: () => ({
 		message: "",
-		interval: undefined,
-		docked: true
+		docked: true,
+		interval: null
 	}),
 	methods: {
 		handleMessage() {
@@ -60,7 +60,12 @@ module.exports = {
 		}
 	},
 	created() {
-		this.interval = setInterval(() => this.$forceUpdate(), 5000);
+		this.interval = setInterval(() => {
+			this.scroll();
+		}, 25);
+	},
+	beforeDestroy() {
+		clearInterval(this.interval);
 	},
 	mounted() {
 		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
@@ -69,9 +74,6 @@ module.exports = {
 		if(this.docked === true) {
 			this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
 		}
-	},
-	beforeDestroy() {
-		clearInterval(this.interval);
 	},
 	components: {
 		Message
