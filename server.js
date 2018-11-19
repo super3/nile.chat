@@ -48,7 +48,7 @@ io.on('connection', socket => {
 			socket.emit('user-key', userKey);
 
 			return user;
-		})();
+		})(userKey);
 
 		await user.goOnline();
 
