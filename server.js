@@ -12,6 +12,7 @@ const redis = require('./lib/redis');
 const User = require('./lib/User');
 const Channel = require('./lib/Channel');
 const Message = require('./lib/Message');
+const DirectMessage = require('./lib/DirectMessage');
 
 const app = new Koa();
 
@@ -22,6 +23,7 @@ const server = http.createServer(app.callback());
 const io = new Socket(server);
 
 const users = [];
+const userSockets = new Map();
 
 io.on('connection', socket => {
 	// eslint-disable-next-line no-use-before-define
@@ -52,8 +54,11 @@ io.on('connection', socket => {
 
 		await user.goOnline();
 
+		userSocket.set(user.id, socket);
+
 		socket.emit('user', user);
 		socket.emit('online', await User.findOnline(instance));
+		socket.emit('direct-messages', await DirectMessage.findDirects(instance, user.id));
 
 		const onlineInterval = setInterval(async () => {
 			socket.emit('online', await User.findOnline(instance));
@@ -140,6 +145,20 @@ io.on('connection', socket => {
 						}
 					}
 				}
+			}
+		});
+
+		socket.on('direct-message', async (to, text) => {
+			const message = new DirectMessage(instance, to, user.id, text);
+
+			await message.save();
+
+			socket.emit('direct-message', message);
+
+			try {
+				userSockets[message.to].emit('direct-message', message);
+			} catch(err) {
+				// user offline
 			}
 		});
 

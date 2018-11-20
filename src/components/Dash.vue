@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div v-for="channel in channels" v-on:click="selectedChannel = channel.id" v-bind:class="{ 'bg-teal-dark': selectedChannel === channel.id }" class="py-1 px-4 text-white"># {{channel.name}}</div>
+            <div v-for="channel in channels" v-on:click="selectChannel(channel)" v-bind:class="{ 'bg-teal-dark': selectedChannel === channel.id }" class="py-1 px-4 text-white"># {{channel.name}}</div>
 
 			<div v-if="typeof newChannel === 'string'" class="bg-teal-dark py-1 px-4 text-white"># <input v-model="newChannel" v-on:keyup.13="createChannel" type="text"></div>
         </div>
@@ -95,7 +95,8 @@
 				</div>
     </div>
     <!-- Chat content -->
-	<Channel v-if="selectedChannel !== undefined" v-bind:channel="channels.find(channel => channel.id === selectedChannel)" v-on:message="createMessage"></Channel>
+	<Channel v-if="selectedType === 'channel'" v-bind:channel="channels.find(channel => channel.id === selected)" v-on:message="createMessage"></Channel>
+	<Direct v-if="selectedType === 'direct'"></Direct>
 </div>
 
 	</div>
@@ -103,21 +104,29 @@
 
 <script>
 const socket = require('socket.io-client')(location.origin);
+
 const Channel = require('./Channel.vue');
+const Direct = require('./Direct.vue');
 
 module.exports = {
 	data: () => ({
 		user: {},
 		users: [],
 		newChannel: false,
-		selectedChannel: undefined,
+		selectedType: null
+		selected: null,
 		channels: [],
+		directs: [],
 		instance: location.search.slice(1) || 'big.chat'
 	}),
 	methods: {
 		createChannel() {
 			socket.emit('channel', this.newChannel);
 			this.newChannel = false;
+		},
+		selectChannel(channel) {
+			this.selectedType = 'channel';
+			this.selected = channel.id;
 		},
 		createMessage(text) {
 			socket.emit('message', this.selectedChannel, text);
@@ -131,6 +140,10 @@ module.exports = {
 
 			if(this.selectedChannel === undefined)
 				this.selectedChannel = channel.id;
+		});
+
+		socket.on('direct-messages', directs => {
+			this.directs = directs;
 		});
 
 		socket.on('message', (message, isNew) => {
