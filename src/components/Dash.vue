@@ -146,7 +146,7 @@ module.exports = {
 			this.selected = user.id;
 		},
 		createMessage(text) {
-			socket.emit('message', this.selectedChannel, text);
+			socket.emit('message', this.selected, text);
 		},
 		createDirectMessage(user, text) {
 			socket.emit('direct-message', user.id, text);
@@ -179,14 +179,20 @@ module.exports = {
 					.push(message);
 
 			if(message.from.id !== this.user.id) {
-				new Notification('nile.chat', {
+				const notification = new Notification('nile.chat', {
 					body: `@${message.from.name} sent you a direct message`
 				});
+
+				notification.onclick = () => {
+					this.selectDirect(message.from);
+				};
 			}
 		});
 
 		socket.on('message', (message, isNew) => {
 			message.preview = null;
+
+			console.log(this.channels.map(channel => channel.id), message);
 
 			this.channels
 				.find(channel => channel.id === message.channel)
