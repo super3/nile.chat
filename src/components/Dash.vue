@@ -177,6 +177,10 @@ module.exports = {
 				.find(direct => direct.user.id === message.from.id || direct.user.id === message.to.id)
 				.messages
 					.push(message);
+
+			new Notification('nile.chat', {
+				body: `@${message.from.name} sent you a direct message`
+			});
 		});
 
 		socket.on('message', (message, isNew) => {
