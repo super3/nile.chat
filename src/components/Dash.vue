@@ -73,9 +73,9 @@
                 </div>
             </div>
 
-            <div v-for="user in users" v-on:click="selectDirect(user)" class="flex items-center mb-1 px-4">
+            <div v-for="directUser in users" v-if="directUser.id !== user.id" v-on:click="selectDirect(directUser)" class="flex items-center mb-1 px-4">
                 <svg class="h-2 w-2 fill-current text-green mr-2" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
-                <span class="text-white opacity-75">{{user.name}}</span>
+                <span class="text-white opacity-75">{{directUser.name}}</span>
             </div>
         </div>
         <!--<div>
@@ -174,13 +174,15 @@ module.exports = {
 			this.createDirect(message.from.id === this.user.id ? message.to.id : message.from.id);
 
 			this.directs
-				.find(direct => direct.user.id === message.from.id || direct.user.id === message.to.id)
+				.find(direct => direct.user.id !== this.user.id && (direct.user.id === message.from.id || direct.user.id === message.to.id))
 				.messages
 					.push(message);
 
-			new Notification('nile.chat', {
-				body: `@${message.from.name} sent you a direct message`
-			});
+			if(message.from.id !== this.user.id) {
+				new Notification('nile.chat', {
+					body: `@${message.from.name} sent you a direct message`
+				});
+			}
 		});
 
 		socket.on('message', (message, isNew) => {
