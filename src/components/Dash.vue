@@ -73,8 +73,8 @@
                 </div>
             </div>
 
-            <div v-for="directUser in users" v-if="directUser.id !== user.id" v-on:click="selectDirect(directUser)" class="flex items-center mb-1 px-4">
-                <svg class="h-2 w-2 fill-current text-green mr-2" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
+            <div v-for="directUser in users" v-if="directUser.id !== user.id" v-on:click="selectDirect(directUser)" v-bind:class="{ 'bg-teal-dark': selectedType === 'direct' && selected === directUser.id }" class="flex items-center mb-1 px-4">
+                <svg class="h-2 w-2 fill-current text-green mr-2" v-bind:class="{ 'text-white': selectedType === 'direct' && selected === directUser.id }" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
                 <span class="text-white opacity-75">{{directUser.name}}</span>
             </div>
         </div>
