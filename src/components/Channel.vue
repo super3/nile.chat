@@ -5,7 +5,7 @@
             <div class="flex flex-col">
                 <h3 class="text-grey-darkest mb-1 font-extrabold">#{{channel.name}}</h3>
                 <div class="text-grey-dark text-sm truncate">
-                    {{channel.description}}
+                    Channel
                 </div>
             </div>
             <div class="ml-auto hidden md:block">

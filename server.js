@@ -23,7 +23,7 @@ const server = http.createServer(app.callback());
 const io = new Socket(server);
 
 const users = [];
-const userSockets = new Map();
+const userSockets = [];
 
 io.on('connection', socket => {
 	// eslint-disable-next-line no-use-before-define
@@ -54,7 +54,7 @@ io.on('connection', socket => {
 
 		await user.goOnline();
 
-		userSocket.set(user.id, socket);
+		userSockets[user.id] = socket;
 
 		socket.emit('user', user);
 		socket.emit('online', await User.findOnline(instance));
@@ -151,12 +151,14 @@ io.on('connection', socket => {
 		socket.on('direct-message', async (to, text) => {
 			const message = new DirectMessage(instance, to, user.id, text);
 
+			console.log('new', to, text);
+
 			await message.save();
 
-			socket.emit('direct-message', message);
+			socket.emit('direct-message', await DirectMessage.get(instance, to, user.id, message.id));
 
 			try {
-				userSockets[message.to].emit('direct-message', message);
+				userSockets[to].emit('direct-message', await DirectMessage.get(instance, to, user.id, message.id));
 			} catch(err) {
 				// user offline
 			}
@@ -164,6 +166,8 @@ io.on('connection', socket => {
 
 		socket.on('disconnect', async () => {
 			users.splice(users.indexOf(socket), 1);
+			delete userSockets[user.id];
+
 			await user.goOffline();
 		});
 	});

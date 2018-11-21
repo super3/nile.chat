@@ -59,7 +59,7 @@
                 </div>
             </div>
 
-            <div v-for="channel in channels" v-on:click="selectChannel(channel)" v-bind:class="{ 'bg-teal-dark': selectedChannel === channel.id }" class="py-1 px-4 text-white"># {{channel.name}}</div>
+            <div v-for="channel in channels" v-on:click="selectChannel(channel)" v-bind:class="{ 'bg-teal-dark': selectedType === 'channel' && selected === channel.id }" class="py-1 px-4 text-white"># {{channel.name}}</div>
 
 			<div v-if="typeof newChannel === 'string'" class="bg-teal-dark py-1 px-4 text-white"># <input v-model="newChannel" v-on:keyup.13="createChannel" type="text"></div>
         </div>
@@ -72,7 +72,8 @@
                     </svg>
                 </div>
             </div>
-            <div v-for="user in users" class="flex items-center mb-1 px-4">
+
+            <div v-for="user in users" v-on:click="selectDirect(user)" class="flex items-center mb-1 px-4">
                 <svg class="h-2 w-2 fill-current text-green mr-2" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
                 <span class="text-white opacity-75">{{user.name}}</span>
             </div>
@@ -96,7 +97,7 @@
     </div>
     <!-- Chat content -->
 	<Channel v-if="selectedType === 'channel'" v-bind:channel="channels.find(channel => channel.id === selected)" v-on:message="createMessage"></Channel>
-	<Direct v-if="selectedType === 'direct'"></Direct>
+	<Direct v-if="selectedType === 'direct'" v-bind:direct="directs.find(direct => direct.user.id === selected)" v-on:message="createDirectMessage"></Direct>
 </div>
 
 	</div>
@@ -113,7 +114,7 @@ module.exports = {
 		user: {},
 		users: [],
 		newChannel: false,
-		selectedType: null
+		selectedType: null,
 		selected: null,
 		channels: [],
 		directs: [],
@@ -128,8 +129,27 @@ module.exports = {
 			this.selectedType = 'channel';
 			this.selected = channel.id;
 		},
+		createDirect(user) {
+			const direct = this.directs.find(direct => direct.user.id === user.id);
+
+			if(typeof direct === 'undefined') {
+				this.directs.push({
+					user,
+					messages: []
+				});
+			}
+		},
+		selectDirect(user) {
+			this.createDirect(user);
+
+			this.selectedType = 'direct';
+			this.selected = user.id;
+		},
 		createMessage(text) {
 			socket.emit('message', this.selectedChannel, text);
+		},
+		createDirectMessage(user, text) {
+			socket.emit('direct-message', user.id, text);
 		}
 	},
 	created() {
@@ -143,7 +163,18 @@ module.exports = {
 		});
 
 		socket.on('direct-messages', directs => {
+			console.log('directs', directs);
 			this.directs = directs;
+		});
+
+		socket.on('direct-message', message => {
+			console.log('direct-message', message);
+			this.createDirect(message.from.id === this.user.id ? message.to.id : message.from.id);
+
+			this.directs
+				.find(direct => direct.user.id === message.from.id || direct.user.id === message.to.id)
+				.messages
+					.push(message);
 		});
 
 		socket.on('message', (message, isNew) => {
@@ -193,7 +224,8 @@ module.exports = {
 		});
 	},
 	components: {
-		Channel
+		Channel,
+		Direct
 	}
 };
 </script>
