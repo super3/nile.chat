@@ -96,8 +96,8 @@
 				</div>
     </div>
     <!-- Chat content -->
-	<Channel v-if="selectedType === 'channel'" v-bind:channel="channels.find(channel => channel.id === selected)" v-on:message="createMessage"></Channel>
-	<Direct v-if="selectedType === 'direct'" v-bind:direct="directs.find(direct => direct.user.id === selected)" v-on:message="createDirectMessage"></Direct>
+	<Channel v-if="selectedType === 'channel'" v-bind:channel="channels.find(channel => channel.id === selected)" v-bind:channels="channels" v-bind:directs="directs" v-on:message="createMessage"></Channel>
+	<Direct v-if="selectedType === 'direct'" v-bind:direct="directs.find(direct => direct.user.id === selected)" v-bind:channels="channels" v-bind:directs="directs" v-on:message="createDirectMessage"></Direct>
 </div>
 
 	</div>
