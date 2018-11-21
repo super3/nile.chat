@@ -158,8 +158,10 @@ module.exports = {
 		socket.on('channel', channel => {
 			this.channels.push(channel);
 
-			if(this.selectedChannel === undefined)
-				this.selectedChannel = channel.id;
+			if(this.selected === null) {
+				this.selectedType = 'channel';
+				this.selected = channel.id;
+			}
 		});
 
 		socket.on('direct-messages', directs => {
