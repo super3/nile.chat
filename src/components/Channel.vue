@@ -60,8 +60,11 @@ module.exports = {
 	data: () => ({
 		message: "",
 		docked: true,
-		selected: ''
+		selected: null
 	}),
+	created() {
+		this.selected = JSON.stringify([ 'channel', this.channel.id ]);
+	},
 	methods: {
 		handleMessage() {
 			this.$emit('message', this.message);

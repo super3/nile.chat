@@ -59,8 +59,12 @@ module.exports = {
 	],
 	data: () => ({
 		message: "",
-		docked: true
+		docked: true,
+		selected: null
 	}),
+	created() {
+		this.selected = JSON.stringify([ 'direct', this.direct.user.id ]);
+	},
 	methods: {
 		handleMessage() {
 			this.$emit('message', this.direct.user, this.message);
