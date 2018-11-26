@@ -258,7 +258,7 @@ module.exports = {
 		});
 
 		socket.on('disconnect', () => {
-			location.reload();
+			setTimeout(() => location.reload(), 30 * 1000);
 		});
 	},
 	components: {
