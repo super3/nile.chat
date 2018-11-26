@@ -60,18 +60,16 @@ io.on('connection', socket => {
 			return user;
 		})(userKey);
 
-		await user.goOnline();
-
 		socket.emit('user', user);
 		socket.emit('online', await User.findOnline(instance));
 		socket.emit('direct-messages', await DirectMessage.findDirects(instance, user.id));
 
-		const onlineInterval = setInterval(async () => {
-			socket.emit('online', await User.findOnline(instance));
-		}, 30 * 1000);
+		socket.emit('online', await User.findOnline(instance));
 
-		socket.on('disconnect', () => {
-			clearInterval(onlineInterval);
+		await user.goOnline();
+
+		subscribe(`${instance}:online`, async (id, status) => {
+			socket.emit('online-user', await User.get(instance, id), status);
 		});
 
 		for(const channel of await Channel.find(instance)) {
@@ -91,10 +89,10 @@ io.on('connection', socket => {
 			if (text.startsWith('/name')) {
 				const name = text.split(' ')[1];
 
-				const added = await redis.sadd(`${instance}:names`, name);
+				const added = await redis.sadd(`${instance}:names`, name.toLowerCase());
 
 				if (added === 1) {
-					await redis.srem(`${instance}:names`, user.name);
+					await redis.srem(`${instance}:names`, user.name.toLowerCase());
 
 					user.name = name;
 					await user.save();
@@ -164,9 +162,6 @@ io.on('connection', socket => {
 		});
 
 		socket.on('disconnect', async () => {
-			users.splice(users.indexOf(socket), 1);
-			delete userSockets[user.id];
-
 			await user.goOffline();
 		});
 	});

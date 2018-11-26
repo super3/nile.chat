@@ -229,6 +229,14 @@ module.exports = {
 			this.users = online;
 		});
 
+		socket.on('online-user', (user, status) => {
+			if(status === true) {
+				this.users.push(user);
+			} else {
+				this.users = this.users.filter(u => u.id !== user.id);
+			}
+		});
+
 		socket.on('user-key', userKey => {
 			localStorage.setItem(`user-key:${this.instance}`, userKey);
 		});
