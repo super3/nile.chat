@@ -6,6 +6,7 @@ const axios = require('axios');
 const Koa = require('koa');
 const koaStatic = require('koa-static');
 const Socket = require('socket.io');
+const Redis = require('ioredis');
 
 const redis = require('./lib/redis');
 
@@ -29,6 +30,18 @@ io.on('connection', socket => {
 	// eslint-disable-next-line no-use-before-define
 	socket.on('init', async (instance, userKey) => {
 		users.push(socket);
+
+		const sub = new Redis();
+
+		const subscribe = async (channel, handler) => {
+			await sub.subscribe(channel);
+
+			sub.on('message', (messageChannel, message) => {
+				if(messageChannel === String(channel)) {
+					handler(...JSON.parse(message));
+				}
+			});
+		};
 
 		const user = await (async userKey => {
 			if(userKey) {
@@ -75,10 +88,10 @@ io.on('connection', socket => {
 		socket.on('channel', async name => {
 			const channel = new Channel(instance, name);
 			await channel.save();
+		});
 
-			for (const user of users) {
-				user.emit('channel', await Channel.get(instance, channel.id));
-			}
+		subscribe(`${instance}:channel`, async id => {
+			socket.emit('channel', await Channel.get(instance, id));
 		});
 
 		socket.on('message', async (channelId, text) => {
@@ -104,10 +117,6 @@ io.on('connection', socket => {
 
 			const message = new Message(instance, channelId, user.id, text);
 			await message.save();
-
-			for (const user of users) {
-				user.emit('message', await Message.get(instance, channelId, message.id), true);
-			}
 
 			if (text === '/help') {
 				const message = new Message(instance, channelId, user.id, await fs.readFile(`${__dirname}/help-readme`, 'utf8'));
@@ -148,10 +157,12 @@ io.on('connection', socket => {
 			}
 		});
 
+		subscribe(`${instance}:message`, async (channelId, id) => {
+			socket.emit('message', await Message.get(instance, channelId, id), true);
+		});
+
 		socket.on('direct-message', async (to, text) => {
 			const message = new DirectMessage(instance, to, user.id, text);
-
-			console.log('new', to, text);
 
 			await message.save();
 
