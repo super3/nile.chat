@@ -96,8 +96,20 @@
 				</div>
     </div>
     <!-- Chat content -->
-	<Channel v-if="selectedType === 'channel'" v-bind:channel="channels.find(channel => channel.id === selected)" v-bind:channels="channels" v-bind:directs="directs" v-on:message="createMessage"></Channel>
-	<Direct v-if="selectedType === 'direct'" v-bind:direct="directs.find(direct => direct.user.id === selected)" v-bind:channels="channels" v-bind:directs="directs" v-on:message="createDirectMessage"></Direct>
+	<Channel v-if="selectedType === 'channel'"
+		v-bind:channel="channels.find(channel => channel.id === selected)"
+		v-bind:channels="channels"
+		v-bind:directs="directs"
+		v-on:message="createMessage"
+		v-on:selected="handleSelected"
+	></Channel>
+	<Direct v-if="selectedType === 'direct'"
+		v-bind:direct="directs.find(direct => direct.user.id === selected)"
+		v-bind:channels="channels"
+		v-bind:directs="directs"
+		v-on:message="createDirectMessage"
+		v-on:selected="handleSelected"
+	></Direct>
 </div>
 
 	</div>
@@ -150,6 +162,10 @@ module.exports = {
 		},
 		createDirectMessage(user, text) {
 			socket.emit('direct-message', user.id, text);
+		},
+		handleSelected(type, id) {
+			this.selectedType = type;
+			this.selected = id;
 		}
 	},
 	created() {
