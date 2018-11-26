@@ -23,14 +23,9 @@ const server = http.createServer(app.callback());
 
 const io = new Socket(server);
 
-const users = [];
-const userSockets = [];
-
 io.on('connection', socket => {
 	// eslint-disable-next-line no-use-before-define
 	socket.on('init', async (instance, userKey) => {
-		users.push(socket);
-
 		const sub = new Redis();
 
 		const subscribe = async (channel, handler) => {
@@ -66,8 +61,6 @@ io.on('connection', socket => {
 		})(userKey);
 
 		await user.goOnline();
-
-		userSockets[user.id] = socket;
 
 		socket.emit('user', user);
 		socket.emit('online', await User.findOnline(instance));
@@ -163,16 +156,11 @@ io.on('connection', socket => {
 
 		socket.on('direct-message', async (to, text) => {
 			const message = new DirectMessage(instance, to, user.id, text);
-
 			await message.save();
+		});
 
-			socket.emit('direct-message', await DirectMessage.get(instance, to, user.id, message.id));
-
-			try {
-				userSockets[to].emit('direct-message', await DirectMessage.get(instance, to, user.id, message.id));
-			} catch(err) {
-				// user offline
-			}
+		subscribe(`${instance}:direct-message:${user.id}`, async (to, from, id) => {
+			socket.emit('direct-message', await DirectMessage.get(instance, to, from, id));
 		});
 
 		socket.on('disconnect', async () => {
