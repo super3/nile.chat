@@ -73,6 +73,9 @@ module.exports = {
 			if(this.docked === true) {
 				this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
 			}
+		},
+		updateSelected() {
+			this.$emit('selected', ...JSON.parse(this.selected));
 		}
 	},
 	mounted() {
