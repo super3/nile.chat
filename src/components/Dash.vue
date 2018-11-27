@@ -100,6 +100,7 @@
 		v-bind:channel="channels.find(channel => channel.id === selected)"
 		v-bind:channels="channels"
 		v-bind:directs="directs"
+		v-bind:searchResults="searchResults"
 		v-on:message="createMessage"
 		v-on:selected="handleSelected"
 		v-on:search="search"
@@ -109,6 +110,7 @@
 		v-bind:direct="directs.find(direct => direct.user.id === selected)"
 		v-bind:channels="channels"
 		v-bind:directs="directs"
+		v-bind:searchResults="searchResults"
 		v-on:message="createDirectMessage"
 		v-on:selected="handleSelected"
 		v-on:search="search"
@@ -133,6 +135,7 @@ module.exports = {
 		selected: null,
 		channels: [],
 		directs: [],
+		searchResults: [],
 		instance: location.search.slice(1) || 'big.chat'
 	}),
 	methods: {
@@ -264,7 +267,7 @@ module.exports = {
 		});
 
 		socket.on('search-results', results => {
-			console.log(results);
+			this.searchResults = results;
 		});
 
 		socket.on('disconnect', () => {

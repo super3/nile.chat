@@ -130,8 +130,6 @@ io.on('connection', socket => {
 					const contentType = response.headers['content-type'];
 
 					if (contentType.startsWith('image')) {
-						console.log('sending preview');
-
 						for (const user of users) {
 							const preview = {
 								type: 'image',
@@ -162,7 +160,10 @@ io.on('connection', socket => {
 		});
 
 		socket.on('search-query', async query => {
-			socket.emit('search-results', await Message.search(instance, query));
+			const results = await Message.search(instance, query);
+			console.log(results, query);
+
+			socket.emit('search-results', results);
 		});
 
 		socket.on('disconnect', async () => {

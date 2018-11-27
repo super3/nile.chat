@@ -28,6 +28,26 @@
                             <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z" />
                         </svg>
                     </div>
+
+					<div style="position: absolute; z-index: 1000;">
+						<div v-for="message in searchResults">
+							<div class="flex items-start mb-4 text-sm">
+								<img v-bind:src="(message.user || message.from).avatar || `https://api.adorable.io/avatars/285/${(message.user || message.from).id}.png`" class="w-10 h-10 rounded mr-3">
+
+								<div class="w-full overflow-hidden">
+									<div>
+										<span class="font-bold">{{(message.user || message.from).name}} in #{{channels.find(channel => channel.id === message.channel).name}}</span>
+										<span class="text-grey text-xs">{{(message.user || message.from).date | relativeDate}}</span>
+									</div>
+									<p class="text-black leading-normal">{{message.text}}</p>
+								</div>
+
+								<div class="w-full overflow-hidden" v-if="message.preview">
+									<a v-bind:href="message.preview.url"><img v-bind:src="message.preview.url" target="_blank" width="50%"></a>
+								</div>
+							</div>
+						</div>
+					</div>
                 </div>
             </div>
         </div>
@@ -56,7 +76,8 @@ module.exports = {
 	props: [
 		"channel",
 		"channels",
-		"directs"
+		"directs",
+		"searchResults"
 	],
 	data: () => ({
 		message: "",
