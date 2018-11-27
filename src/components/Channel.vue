@@ -37,7 +37,7 @@
 								<div class="w-full overflow-hidden">
 									<div>
 										<span class="font-bold">{{(message.user || message.from).name}} in #{{channels.find(channel => channel.id === message.channel).name}}</span>
-										<span class="text-grey text-xs">{{(message.user || message.from).date | relativeDate}}</span>
+										<span class="text-grey text-xs">{{message.date | relativeDate}}</span>
 									</div>
 									<p class="text-black leading-normal">{{message.text}}</p>
 								</div>
@@ -71,6 +71,7 @@
 
 <script>
 const Message = require('./Message.vue');
+const relativeDate = require('relative-date');
 
 module.exports = {
 	props: [
@@ -104,6 +105,9 @@ module.exports = {
 		updateSelected() {
 			this.$emit('selected', ...JSON.parse(this.selected));
 		}
+	},
+	filters: {
+		relativeDate
 	},
 	mounted() {
 		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight - this.$refs.chat.offsetHeight;

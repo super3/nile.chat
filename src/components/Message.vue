@@ -5,7 +5,7 @@
 			<div class="w-full overflow-hidden">
 				<div>
 					<span class="font-bold">{{(message.user || message.from).name}}</span>
-					<span class="text-grey text-xs">{{(message.user || message.from).date | relativeDate}}</span>
+					<span class="text-grey text-xs">{{message.date | relativeDate}}</span>
 				</div>
 				<p class="text-black leading-normal" v-html="text"></p>
 			</div>
