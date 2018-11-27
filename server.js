@@ -161,6 +161,10 @@ io.on('connection', socket => {
 			socket.emit('direct-message', await DirectMessage.get(instance, to, from, id));
 		});
 
+		socket.on('search-query', async query => {
+			socket.emit('search-results', await Message.search(instance, query));
+		});
+
 		socket.on('disconnect', async () => {
 			await user.goOffline();
 		});

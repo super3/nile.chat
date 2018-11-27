@@ -102,13 +102,16 @@
 		v-bind:directs="directs"
 		v-on:message="createMessage"
 		v-on:selected="handleSelected"
+		v-on:search="search"
 	></Channel>
+
 	<Direct v-if="selectedType === 'direct'"
 		v-bind:direct="directs.find(direct => direct.user.id === selected)"
 		v-bind:channels="channels"
 		v-bind:directs="directs"
 		v-on:message="createDirectMessage"
 		v-on:selected="handleSelected"
+		v-on:search="search"
 	></Direct>
 </div>
 
@@ -166,6 +169,9 @@ module.exports = {
 		handleSelected(type, id) {
 			this.selectedType = type;
 			this.selected = id;
+		},
+		search(query) {
+			socket.emit('search-query', query);
 		}
 	},
 	created() {
@@ -255,6 +261,10 @@ module.exports = {
 
 		socket.on('user-key', userKey => {
 			localStorage.setItem(`user-key:${this.instance}`, userKey);
+		});
+
+		socket.on('search-results', results => {
+			console.log(results);
 		});
 
 		socket.on('disconnect', () => {
