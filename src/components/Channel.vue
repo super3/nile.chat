@@ -1,7 +1,7 @@
 <template>
 	<div class="flex-1 flex flex-col bg-white overflow-hidden">
         <!-- Top bar -->
-        <div class="border-b flex px-6 py-2 items-center flex-none">
+        <div class="border-b flex px-6 py-2 items-center flex-none" style="position: fixed; background: white; width: 100%; z-index: 1000;">
             <div class="flex flex-col">
                 <h3 class="text-grey-darkest mb-1 font-extrabold hidden md:block">#{{channel.name}}</h3>
 								<div class="inline-block relative w-64 block md:hidden">
