@@ -1,7 +1,7 @@
 <template>
 	<div class="flex-1 flex flex-col bg-white overflow-hidden">
         <!-- Top bar -->
-        <div class="border-b flex px-6 py-2 items-center flex-none" style="position: fixed; background: white; width: 100%; z-index: 1000;">
+        <div class="border-b flex px-6 py-2 items-center flex-none">
             <div class="flex flex-col">
                 <h3 class="text-grey-darkest mb-1 font-extrabold hidden md:block">#{{channel.name}}</h3>
 								<div class="inline-block relative w-64 block md:hidden">
@@ -29,7 +29,7 @@
                         </svg>
                     </div>
 
-					<div style="position: absolute; z-index: 1000;">
+					<div v-if="searchResults.length > 0" style="position: absolute; z-index: 1000;" class="bg-white shadow  pl-8 pr-4 py-2">
 						<div v-for="message in searchResults">
 							<div class="flex items-start mb-4 text-sm">
 								<img v-bind:src="(message.user || message.from).avatar || `https://api.adorable.io/avatars/285/${(message.user || message.from).id}.png`" class="w-10 h-10 rounded mr-3">
