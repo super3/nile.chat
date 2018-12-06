@@ -1,27 +1,53 @@
 const assert = require('assert');
 
 const redis = require('../lib/redis');
+const User = require('../lib/User');
 const Message = require('../lib/Message');
 
 describe('Message', () => {
-	beforeEach(async () => {
+	before(async () => {
 		const keys = await redis.keys('test:*');
 
 		if(keys.length >= 1)
 			await redis.del(...keys);
 	});
 
+	let user, message, retrievedMessage;
+
 	it('should generate a date', async () => {
-		const message = new Message('test', 0, 0, 'test');
+		user = new User('test');
+		await user.save();
+
+		message = new Message('test', 0, user.id, 'test');
 
 		assert(typeof message.date === 'number');
 	});
 
-	it('should generate an ID', async () => {
-		const message = new Message('test', 0, 0, 'test');
-
+	it('should generate an id', async () => {
 		await message.save();
 
 		assert(typeof message.id === 'number');
+	});
+
+	it('should be retrievable after saving', async () => {
+		retrievedMessage = await Message.get('test', 0, message.id);
+
+		assert.strictEqual(typeof retrievedMessage, 'object');
+	});
+
+	it('should save all arbitrary keys', async () => {
+		message._arbitrary_key = 'hello!';
+		await message.save();
+
+		retrievedMessage = await Message.get('test', 0, message.id);
+
+		assert.strictEqual(retrievedMessage._arbitrary_key, 'hello!');
+	});
+
+	it('should destroy, leaving no extraneous keys', async () => {
+		await message.destroy();
+		await user.destroy();
+
+		assert.deepEqual(await redis.keys('test:*'), [ 'test:channel:0:message-counter' ]);
 	});
 });
