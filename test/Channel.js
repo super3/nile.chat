@@ -31,6 +31,15 @@ describe('Channel', () => {
 		assert.deepEqual(retrievedChannels, [ channel ]);
 	});
 
+	it('should save all arbitrary keys', async () => {
+		channel._arbitrary_key = 'hello!';
+		await channel.save();
+
+		const retrievedChannel = await Channel.get('test', channel.id);
+
+		assert.strictEqual(retrievedChannel._arbitrary_key, 'hello!');
+	});
+
 	it('should destroy, leaving no extraneous keys', async () => {
 		await channel.destroy();
 
