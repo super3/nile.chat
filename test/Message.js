@@ -74,6 +74,8 @@ describe('Message', () => {
 		await message.destroy();
 		await user.destroy();
 
-		assert.deepEqual(await redis.keys('test:*'), [ 'test:channel:0:message-counter' ]);
+		assert.deepEqual(await redis.keys('test:*'), [
+			'test:channel:0:message-counter'
+		]);
 	});
 });

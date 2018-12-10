@@ -23,7 +23,7 @@ describe('User', () => {
 		await user.save();
 
 		retrievedUser = await User.get('test', user.id);
-	
+
 		assert.strictEqual(typeof retrievedUser, 'object');
 	});
 

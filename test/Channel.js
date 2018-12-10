@@ -30,4 +30,12 @@ describe('Channel', () => {
 
 		assert.deepEqual(retrievedChannels, [ channel ]);
 	});
+
+	it('should destroy, leaving no extraneous keys', async () => {
+		await channel.destroy();
+
+		assert.deepEqual(await redis.keys('test:*'), [
+			'test:channel-counter'
+		]);
+	});
 });
