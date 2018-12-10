@@ -44,6 +44,8 @@ describe('Message', () => {
 	});
 
 	it('should be searchable', async () => {
+		assert.deepEqual(await Message.search('test', 'he'), []);
+
 		assert.deepEqual(await Message.search('test', 'hel'), [
 			await Message.get('test', 0, message.id)
 		]);
