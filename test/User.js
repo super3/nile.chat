@@ -20,8 +20,10 @@ describe('User', () => {
 	});
 
 	it('should be retrievable after saving', async () => {
-		retrievedUser = await User.get('test', user.id);
+		await user.save();
 
+		retrievedUser = await User.get('test', user.id);
+	
 		assert.strictEqual(typeof retrievedUser, 'object');
 	});
 
