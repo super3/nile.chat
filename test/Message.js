@@ -18,7 +18,7 @@ describe('Message', () => {
 		user = new User('test');
 		await user.save();
 
-		message = new Message('test', 0, user.id, 'test');
+		message = new Message('test', 0, user.id, 'hello, nile!');
 
 		assert(typeof message.date === 'number');
 	});
@@ -31,8 +31,32 @@ describe('Message', () => {
 
 	it('should be retrievable after saving', async () => {
 		retrievedMessage = await Message.get('test', 0, message.id);
+		retrievedMessage.user = retrievedMessage.user.id;
 
-		assert.strictEqual(typeof retrievedMessage, 'object');
+		assert.deepEqual(retrievedMessage, message);
+	});
+
+	it('should be findable after saving', async () => {
+		const retrievedMessages = await Message.find('test', 0);
+		retrievedMessages[0].user = retrievedMessages[0].user.id;
+
+		assert.deepEqual(retrievedMessages, [ message ]);
+	});
+
+	it('should be searchable', async () => {
+		assert.deepEqual(await Message.search('test', 'hel'), [
+			await Message.get('test', 0, message.id)
+		]);
+
+		assert.deepEqual(await Message.search('test', 'hello'), [
+			await Message.get('test', 0, message.id)
+		]);
+
+		assert.deepEqual(await Message.search('test', 'hello, nil'), [
+			await Message.get('test', 0, message.id)
+		]);
+
+		assert.deepEqual(await Message.search('test', 'hello nil'), []);
 	});
 
 	it('should save all arbitrary keys', async () => {
