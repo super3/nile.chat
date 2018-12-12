@@ -11,7 +11,7 @@
          alt="Build Status">
   </a>
   <a href="https://coveralls.io/github/ovsoinc/nile.chat?branch=master">
-    <img src="https://coveralls.io/repos/github/ovsoinc/nile.chat/badge.svg?branch=master"
+    <img src="https://coveralls.io/repos/github/ovsoinc/nile.chat/badge.svg"
          alt="Coverage Status">
   </a>
   <a href="https://github.com/Storj/ovsoinc/nile.chat/blob/master/LICENSE">
