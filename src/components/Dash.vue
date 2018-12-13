@@ -63,6 +63,13 @@
 
 			<div v-if="typeof newChannel === 'string'" class="bg-teal-dark py-1 px-4 text-white"># <input v-model="newChannel" v-on:keyup.13="createChannel" type="text"></div>
         </div>
+
+		<div class="mb-8">
+			<div class="px-4 mb-2 text-white flex justify-between items-center">
+				<div class="opacity-75">Streams</div>
+			</div>
+		</div>
+
         <div class="mb-8">
             <div class="px-4 mb-2 text-white flex justify-between items-center">
                 <div class="opacity-75">Direct Messages</div>
@@ -73,7 +80,7 @@
                 </div>
             </div>
 
-            <div v-for="directUser in users" v-if="directUser.id !== user.id" v-on:click="selectDirect(directUser)" v-bind:class="{ 'bg-teal-dark': selectedType === 'direct' && selected === directUser.id }" class="flex items-center mb-1 px-4">
+            <div v-for="directUser in users" v-if="directUser.id !== user.id" v-on:click="selectDirect(directUser)" v-bind:class="{ 'bg-teal-dark': selectedType === 'direct' && selected === directUser.id }" class="flex items-center py-1 px-4">
                 <svg class="h-2 w-2 fill-current text-green mr-2" v-bind:class="{ 'text-white': selectedType === 'direct' && selected === directUser.id }" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
                 <span class="text-white opacity-75">{{directUser.name}}</span>
             </div>
@@ -134,6 +141,7 @@ module.exports = {
 		selectedType: null,
 		selected: null,
 		channels: [],
+		streams: [],
 		directs: [],
 		searchResults: [],
 		instance: location.search.slice(1) || 'big.chat'
@@ -190,12 +198,10 @@ module.exports = {
 		});
 
 		socket.on('direct-messages', directs => {
-			console.log('directs', directs);
 			this.directs = directs;
 		});
 
 		socket.on('direct-message', message => {
-			console.log('direct-message', message);
 			this.createDirect(message.from.id === this.user.id ? message.to.id : message.from.id);
 
 			this.directs
@@ -216,8 +222,6 @@ module.exports = {
 
 		socket.on('message', (message, isNew) => {
 			message.preview = null;
-
-			console.log(this.channels.map(channel => channel.id), message);
 
 			this.channels
 				.find(channel => channel.id === message.channel)
@@ -246,7 +250,6 @@ module.exports = {
 		socket.emit('init', this.instance, localStorage.getItem(`user-key:${this.instance}`));
 
 		socket.on('user', user => {
-			console.log(user);
 			this.user = user;
 		});
 
