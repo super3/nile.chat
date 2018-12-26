@@ -14,6 +14,7 @@ const User = require('./lib/User');
 const Channel = require('./lib/Channel');
 const Message = require('./lib/Message');
 const DirectMessage = require('./lib/DirectMessage');
+const Chunk = require('./lib/Chunk');
 
 const app = new Koa();
 
@@ -63,8 +64,8 @@ io.on('connection', socket => {
 		socket.emit('user', user);
 		socket.emit('online', await User.findOnline(instance));
 		socket.emit('direct-messages', await DirectMessage.findDirects(instance, user.id));
-
 		socket.emit('online', await User.findOnline(instance));
+		socket.emit('streams', await Chunk.getStreams(instance));
 
 		await user.goOnline();
 

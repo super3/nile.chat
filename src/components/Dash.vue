@@ -257,6 +257,10 @@ module.exports = {
 			this.users = online;
 		});
 
+		socket.on('streams', streams => {
+			this.streams = streams;
+		});
+
 		socket.on('online-user', (user, status) => {
 			if(status === true) {
 				this.users.push(user);
