@@ -5,6 +5,7 @@ const fs = require('mz/fs');
 const axios = require('axios');
 const Koa = require('koa');
 const koaStatic = require('koa-static');
+const Router = require('koa-router');
 const Socket = require('socket.io');
 const Redis = require('ioredis');
 
@@ -17,6 +18,17 @@ const DirectMessage = require('./lib/DirectMessage');
 const Chunk = require('./lib/Chunk');
 
 const app = new Koa();
+
+const router = new Router();
+
+router.get('/streams/:instance/:stream/push', async ctx => {
+	const chunk = new Chunk(ctx.params.instance, ctx.params.stream, "text", "api", ctx.query.content);
+
+	await chunk.save();
+});
+
+app.use(router.routes())
+app.use(router.allowedMethods());
 
 app.use(koaStatic('public'));
 
@@ -66,6 +78,10 @@ io.on('connection', socket => {
 		socket.emit('direct-messages', await DirectMessage.findDirects(instance, user.id));
 		socket.emit('online', await User.findOnline(instance));
 		socket.emit('streams', await Chunk.getStreams(instance));
+
+		subscribe(`${instance}:chunk`, async (stream, id) => {
+			socket.emit('chunk', await Chunk.get(instance, stream, id));
+		});
 
 		await user.goOnline();
 

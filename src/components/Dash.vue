@@ -67,6 +67,24 @@
 		<div class="mb-8">
 			<div class="px-4 mb-2 text-white flex justify-between items-center">
 				<div class="opacity-75">Streams</div>
+
+				<div
+					v-for="stream in streams"
+					v-on:click="selectStream(stream)"
+					v-bind:class="{ 'bg-teal-dark': selectedType === 'direct' && selected === directUser.id }"
+
+					class="flex items-center py-1 px-4"
+				>
+	                <svg
+						class="h-2 w-2 fill-current text-green mr-2"
+						v-bind:class="{ 'text-white': selectedType === 'direct' && selected === directUser.id }"
+						viewBox="0 0 20 20"
+					>
+						<circle cx="10" cy="10" r="10"></circle>
+					</svg>
+
+	                <span class="text-white opacity-75">{{stream.id}}</span>
+	            </div>
 			</div>
 		</div>
 
@@ -122,6 +140,10 @@
 		v-on:selected="handleSelected"
 		v-on:search="search"
 	></Direct>
+
+	<Stream v-if="selectedType === 'stream'"
+		v-bind:stream="streams.find(stream => stream.id === selected)"
+	></Stream>
 </div>
 
 	</div>
@@ -132,6 +154,7 @@ const socket = require('socket.io-client')(location.origin);
 
 const Channel = require('./Channel.vue');
 const Direct = require('./Direct.vue');
+const Stream = require('./Stream.vue');
 
 module.exports = {
 	data: () => ({
@@ -183,6 +206,10 @@ module.exports = {
 		},
 		search(query) {
 			socket.emit('search-query', query);
+		},
+		selectStream(stream) {
+			this.selectedType = 'stream';
+			this.selected = stream.id;
 		}
 	},
 	created() {
@@ -261,6 +288,12 @@ module.exports = {
 			this.streams = streams;
 		});
 
+		socket.on('chunk', chunk => {
+			this.streams
+				.find(stream => stream.id == chunk.stream)
+				.chunks.push(chunk);
+		});
+
 		socket.on('online-user', (user, status) => {
 			if(status === true) {
 				this.users.push(user);
@@ -283,7 +316,8 @@ module.exports = {
 	},
 	components: {
 		Channel,
-		Direct
+		Direct,
+		Stream
 	}
 };
 </script>
