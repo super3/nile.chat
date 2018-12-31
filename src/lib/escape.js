@@ -4,5 +4,3 @@ module.exports = input => {
 	decoder.innerHTML = input;
 	return decoder.textContent;
 };
-
-console.log(module.exports('yooo<h1>dsfsd'));
