@@ -68,23 +68,24 @@
 			<div class="px-4 mb-2 text-white flex justify-between items-center">
 				<div class="opacity-75">Streams</div>
 
+			</div>
+
 				<div
 					v-for="stream in streams"
 					v-on:click="selectStream(stream)"
-					v-bind:class="{ 'bg-teal-dark': selectedType === 'direct' && selected === directUser.id }"
+					v-bind:class="{ 'bg-teal-dark': selectedType === 'stream' && selected === stream.id }"
 
 					class="flex items-center py-1 px-4"
 				>
 	                <svg
 						class="h-2 w-2 fill-current text-green mr-2"
-						v-bind:class="{ 'text-white': selectedType === 'direct' && selected === directUser.id }"
+						v-bind:class="{ 'text-white': selectedType === 'stream' && selected === stream.id }"
 						viewBox="0 0 20 20"
 					>
 						<circle cx="10" cy="10" r="10"></circle>
 					</svg>
 
 	                <span class="text-white opacity-75">{{stream.id}}</span>
-	            </div>
 			</div>
 		</div>
 
