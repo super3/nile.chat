@@ -22,9 +22,11 @@ const app = new Koa();
 const router = new Router();
 
 router.get('/streams/:instance/:stream/push', async ctx => {
-	const chunk = new Chunk(ctx.params.instance, ctx.params.stream, "text", "api", ctx.query.content);
+	const chunk = new Chunk(ctx.params.instance, ctx.params.stream, ctx.params.type || "text", ctx.params.source || "api", ctx.query.content);
 
 	await chunk.save();
+
+	ctx.body = "";
 });
 
 app.use(router.routes())
