@@ -41,7 +41,7 @@ const io = new Socket(server);
 io.on('connection', socket => {
 	// eslint-disable-next-line no-use-before-define
 	socket.on('init', async (instance, userKey) => {
-		const sub = new Redis();
+		const sub = new Redis(process.env.REDIS_URL);
 
 		const subscribe = async (channel, handler) => {
 			await sub.subscribe(channel);
@@ -191,4 +191,4 @@ io.on('connection', socket => {
 	});
 });
 
-server.listen(3000);
+server.listen(process.env.PORT || 3000);
