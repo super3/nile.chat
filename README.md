@@ -22,15 +22,10 @@
     <img src="https://img.shields.io/github/contributors/ovsoinc/nile.chat.svg"
          alt="GitHub contributors">
   </a>
-  
 </p>
 
+```
+$ docker-compose up
+```
+
 [![screenshot](https://raw.githubusercontent.com/ovsoinc/nile.chat/master/screenshot.png)](https://nile.chat)
-
-## Install
-
-1. [Redis](https://redis.io/download#installation)
-2. [Node.js](https://nodejs.org/en/)
-3. `git clone https://github.com/ovsoinc/nile.chat`
-4. `npm install`
-5. `node server`
