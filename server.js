@@ -17,6 +17,10 @@ const Message = require('./lib/Message');
 const DirectMessage = require('./lib/DirectMessage');
 const Chunk = require('./lib/Chunk');
 
+const socketHandlers = [
+	'channel': require('./socket/channel')
+];
+
 const app = new Koa();
 
 const router = new Router();
@@ -75,6 +79,16 @@ io.on('connection', socket => {
 			return user;
 		})(userKey);
 
+		for(const handler of socketHandlers) {
+			handler({
+				socket,
+				instance,
+				name,
+				subscribe,
+				user
+			});
+		}
+
 		socket.emit('user', user);
 		socket.emit('online', await User.findOnline(instance));
 		socket.emit('direct-messages', await DirectMessage.findDirects(instance, user.id));
@@ -91,92 +105,6 @@ io.on('connection', socket => {
 			socket.emit('online-user', await User.get(instance, id), status);
 		});
 
-		for(const channel of await Channel.find(instance)) {
-			socket.emit('channel', channel);
-		}
-
-		socket.on('channel', async name => {
-			const channel = new Channel(instance, name);
-			await channel.save();
-		});
-
-		subscribe(`${instance}:channel`, async id => {
-			socket.emit('channel', await Channel.get(instance, id));
-		});
-
-		socket.on('message', async (channelId, text) => {
-			if (text.startsWith('/name')) {
-				const name = text.split(' ')[1];
-
-				const added = await redis.sadd(`${instance}:names`, name.toLowerCase());
-
-				if (added === 1) {
-					await redis.srem(`${instance}:names`, user.name.toLowerCase());
-
-					user.name = name;
-					await user.save();
-				}
-
-				socket.emit('user', user);
-			}
-
-			if (text.startsWith('/avatar')) {
-				user.avatar = text.split(' ')[1] || undefined;
-				await user.save();
-			}
-
-			const message = new Message(instance, channelId, user.id, text);
-			await message.save();
-
-			if (text === '/help') {
-				const message = new Message(instance, channelId, user.id, await fs.readFile(`${__dirname}/help-readme`, 'utf8'));
-				await message.save();
-
-				for (const user of users) {
-					user.emit('message', await Message.get(instance, channelId, message.id));
-				}
-			}
-
-			for (const word of text.trim().split(' ')) {
-				const result = url.parse(word);
-
-				if (result.hostname !== null) {
-					const response = await axios.get(word, {
-						// Timeout: 5000,
-						// maxContentLength: 2000
-					});
-
-					const contentType = response.headers['content-type'];
-
-					if (contentType.startsWith('image')) {
-						for (const user of users) {
-							const preview = {
-								type: 'image',
-								url: word
-							};
-
-							user.emit('message-preview', instance, channelId, message.id, preview);
-							message.preview = preview;
-
-							await message.save();
-						}
-					}
-				}
-			}
-		});
-
-		subscribe(`${instance}:message`, async (channelId, id) => {
-			socket.emit('message', await Message.get(instance, channelId, id), true);
-		});
-
-		socket.on('direct-message', async (to, text) => {
-			const message = new DirectMessage(instance, to, user.id, text);
-			await message.save();
-		});
-
-		subscribe(`${instance}:direct-message:${user.id}`, async (to, from, id) => {
-			socket.emit('direct-message', await DirectMessage.get(instance, to, from, id));
-		});
 
 		socket.on('search-query', async query => {
 			const results = await Message.search(instance, query);
