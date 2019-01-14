@@ -1,6 +1,6 @@
 const Message = require('../lib/Message');
 
-module.exports = ({ socket, instance, name, subscribe }) => {
+module.exports = ({ socket, instance, name, subscribe, user }) => {
 	socket.on('message', async (channelId, text) => {
 		if (text.startsWith('/name')) {
 			const name = text.split(' ')[1];

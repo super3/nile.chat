@@ -18,7 +18,9 @@ const DirectMessage = require('./lib/DirectMessage');
 const Chunk = require('./lib/Chunk');
 
 const socketHandlers = [
-	'channel': require('./socket/channel')
+	require('./socket/channel'),
+	require('./socket/direct-message'),
+	require('./socket/message')
 ];
 
 const app = new Koa();
@@ -83,7 +85,6 @@ io.on('connection', socket => {
 			handler({
 				socket,
 				instance,
-				name,
 				subscribe,
 				user
 			});

@@ -1,6 +1,6 @@
 const Channel = require('../lib/Channel');
 
-module.exports = ({ socket, instance, name, subscribe }) => {
+module.exports = async ({ socket, instance, name, subscribe, user }) => {
 	for(const channel of await Channel.find(instance)) {
 		socket.emit('channel', channel);
 	}

@@ -290,6 +290,8 @@ module.exports = {
 		});
 
 		socket.on('chunk', chunk => {
+			console.log(chunk);
+
 			this.streams
 				.find(stream => stream.id == chunk.stream)
 				.chunks.push(chunk);
