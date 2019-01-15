@@ -35,6 +35,9 @@ router.get('/streams/:instance/:stream/push', async ctx => {
 	ctx.body = "";
 });
 
+router.use('/static', require('./routers/static').routes());
+router.use('/static', require('./routers/static').allowedMethods());
+
 app.use(router.routes())
 app.use(router.allowedMethods());
 

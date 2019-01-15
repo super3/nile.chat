@@ -38,7 +38,8 @@
     "relative-date": "^1.1.3",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
-    "vue": "2.5.17",
+    "vue": "^2.5.17",
+    "vue-server-renderer": "2.5.17",
     "vueify": "^9.4.1",
     "watchify": "^3.11.0"
   },
