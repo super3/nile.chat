@@ -1,4 +1,5 @@
 const fs = require('fs');
+const util = require('util');
 const Renderer = require('vue-server-renderer');
 const Router = require('koa-router');
 
@@ -11,12 +12,25 @@ const renderer = Renderer.createRenderer({
 });
 
 router.get('/sitemap.xml', async ctx => {
+	const instances = [ 'big.chat' ];
+
 	const links = [{
 		location: '/',
 		modified: new Date(),
 		change: 'daily',
 		priority: 1
 	}];
+
+	for(const instance of instances) {
+		for(const id of await Channel.findIds(instance)) {
+			links.push({
+				location: `/archive/${instance}/channel/${id}`,
+				modified: new Date(),
+				change: 'daily',
+				priority: 1
+			});
+		}
+	}
 
 	ctx.body = `<?xml version="1.0" encoding="utf-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
@@ -25,6 +39,7 @@ router.get('/sitemap.xml', async ctx => {
 	${links.map(link => `
 		<url>
 			<loc>https://nile.chat${link.location}</loc>
+
 			<lastmod>${link.modified.getFullYear()}-${link.modified.getMonth() + 1}-${link.modified.getDate()}</lastmod>
 			<changefreq>${link.change}</changefreq>
 	        <priority>${link.priority}</priority>
@@ -33,8 +48,22 @@ router.get('/sitemap.xml', async ctx => {
 </urlset>`;
 });
 
-router.get('/static/:instance/channel/:channel', async ctx => {
+// const Archive = require('../src/components/Archive.vue');
+
+router.get('/archive/:instance/channel/:channel', async ctx => {
 	const channel = await Channel.get(ctx.params.instance, ctx.params.channel);
 
-	ctx.body = JSON.stringify(channel);
+	const app = new Vue({
+		data: {
+			channel
+		},
+		components: {
+			// Archive
+		},
+		template: `<Archive v-bind:channel="channel"></Archive>`
+	});
+
+	const render = uti.promisify((...args) => renderer.renderToString(...args));
+
+	ctx.body = await render(app);
 });
