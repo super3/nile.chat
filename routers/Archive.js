@@ -1,4 +1,8 @@
-<template>
+const Vue = require('vue');
+const relativeDate = require('relative-date');
+
+module.exports = Vue.component('archive', {
+	template: `
 	<div class="flex-1 flex flex-col bg-white overflow-hidden">
         <!-- Top bar -->
         <div class="border-b flex px-6 py-2 items-center flex-none">
@@ -18,7 +22,21 @@
         <!-- Chat messages -->
         <div v-on:scroll="scroll" class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
 			<div v-for="message in channel.messages">
-				<Message v-bind:message="message"></Message>
+				<div class="flex items-start mb-4 text-sm">
+					<img v-bind:src="(message.user || message.from).avatar" class="w-10 h-10 rounded mr-3">
+
+					<div class="w-full overflow-hidden">
+						<div>
+							<span class="font-bold">{{(message.user || message.from).name}}</span>
+							<span class="text-grey text-xs">{{message.date | relativeDate}}</span>
+						</div>
+						<p class="text-black leading-normal" v-html="sanitize(message.text)"></p>
+					</div>
+
+					<div class="w-full overflow-hidden" v-if="message.preview">
+						<a v-bind:href="message.preview.url"><img v-bind:src="message.preview.url" target="_blank" width="50%"></a>
+					</div>
+				</div>
 			</div>
         </div>
 
@@ -31,15 +49,41 @@
 	</div>
 </div>
     </div>
-</template>
-
-<script>
-const Message = require('./Message.vue');
-const relativeDate = require('relative-date');
-
-module.exports = {
+	`,
 	props: [
 		"channel"
-	]
-};
-</script>
+	],
+	filters: {
+		relativeDate
+	},
+	methods: {
+		sanitize(text) {
+			text = text.replace(/\\/g, "\\\\")
+				.replace(/\$/g, "\\$")
+				.replace(/'/g, "\\'")
+				.replace(/"/g, "\\\"")
+				.replace(new RegExp('\n', 'g'), '<br>');
+
+			function isValidURL(str) {/*
+			   var a  = document.createElement('a');
+			   a.href = str;
+			   return (a.host && a.host != window.location.host);
+			   */
+
+			   return false;
+			}
+
+			return text.trim().split(' ').map(word => {
+				if(word.startsWith('@')) {
+					return `<strong>${word}</strong>`;
+				}
+
+				if(isValidURL(word)) {
+					return `<a href="${word}" target="_blank">${word}</a>`;
+				}
+
+				return word;
+			}).join(' ');
+		}
+	}
+});

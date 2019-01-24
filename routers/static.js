@@ -2,7 +2,9 @@ const fs = require('fs');
 const util = require('util');
 const Renderer = require('vue-server-renderer');
 const Router = require('koa-router');
+const Vue = require('vue');
 
+const Archive = require('./Archive');
 const Channel = require('../lib/Channel');
 
 const router = module.exports = new Router();
@@ -48,22 +50,22 @@ router.get('/sitemap.xml', async ctx => {
 </urlset>`;
 });
 
-// const Archive = require('../src/components/Archive.vue');
-
 router.get('/archive/:instance/channel/:channel', async ctx => {
 	const channel = await Channel.get(ctx.params.instance, ctx.params.channel);
+
+	console.log(channel);
 
 	const app = new Vue({
 		data: {
 			channel
 		},
 		components: {
-			// Archive
+			Archive
 		},
 		template: `<Archive v-bind:channel="channel"></Archive>`
 	});
 
-	const render = uti.promisify((...args) => renderer.renderToString(...args));
+	const render = util.promisify((...args) => renderer.renderToString(...args));
 
 	ctx.body = await render(app);
 });
