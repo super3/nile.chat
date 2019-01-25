@@ -6,6 +6,7 @@ const Vue = require('vue');
 
 const Archive = require('./Archive');
 const Channel = require('../lib/Channel');
+const Message = require('../lib/Message');
 
 const router = module.exports = new Router();
 
@@ -18,16 +19,18 @@ router.get('/sitemap.xml', async ctx => {
 
 	const links = [{
 		location: '/',
-		modified: new Date(),
+		modified: new Date(1548374917723),
 		change: 'daily',
 		priority: 1
 	}];
 
 	for(const instance of instances) {
 		for(const id of await Channel.findIds(instance)) {
+			const lastMessage = await Message.getLast(instance, id);
+
 			links.push({
 				location: `/archive/${instance}/channel/${id}`,
-				modified: new Date(),
+				modified: lastMessage ? new Date(+lastMessage.date) : new Date(),
 				change: 'daily',
 				priority: 1
 			});

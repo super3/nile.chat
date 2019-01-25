@@ -23,7 +23,7 @@ module.exports = Vue.component('archive', {
         <div v-on:scroll="scroll" class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
 			<div v-for="message in channel.messages">
 				<div class="flex items-start mb-4 text-sm">
-					<img v-bind:src="(message.user || message.from).avatar" class="w-10 h-10 rounded mr-3">
+					<img v-bind:src="(message.user).avatar || 'https://api.adorable.io/avatars/285/' + message.user.id" class="w-10 h-10 rounded mr-3">
 
 					<div class="w-full overflow-hidden">
 						<div>
