@@ -11,7 +11,7 @@ const Message = require('../lib/Message');
 const router = module.exports = new Router();
 
 const renderer = Renderer.createRenderer({
-	template: fs.readFileSync(`${__dirname}/../public/index.html`, 'utf-8')
+	template: fs.readFileSync(`${__dirname}/../public/index.template.html`, 'utf-8')
 });
 
 router.get('/sitemap.xml', async ctx => {
@@ -72,5 +72,7 @@ router.get('/archive/:instance/channel/:channel', async ctx => {
 
 	const render = util.promisify((...args) => renderer.renderToString(...args));
 
-	ctx.body = await render(app);
+	ctx.body = await render(app, {
+		title: `#${channel.name}`
+	});
 });
