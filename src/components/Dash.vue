@@ -158,6 +158,9 @@ const Direct = require('./Direct.vue');
 const Stream = require('./Stream.vue');
 
 module.exports = {
+	props: [
+		'instance'
+	],
 	data: () => ({
 		user: {},
 		users: [],
@@ -167,8 +170,7 @@ module.exports = {
 		channels: [],
 		streams: [],
 		directs: [],
-		searchResults: [],
-		instance: location.search.slice(1) || 'big.chat'
+		searchResults: []
 	}),
 	methods: {
 		createChannel() {

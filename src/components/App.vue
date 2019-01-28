@@ -1,5 +1,5 @@
 <template>
-	<Dash></Dash>
+	<Dash v-bind:instance="'big.chat'"></Dash>
 </template>
 
 <script>
