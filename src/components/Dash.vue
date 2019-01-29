@@ -1,157 +1,143 @@
 <template>
-	<div>
+	<div class="flex flex-col bg-white overflow-hidden">
 
-		<div class="font-sans antialiased h-screen flex">
-    <!-- Sidebar / channel list -->
-    <div class="bg-indigo-darkest text-purple-lighter flex-none p-4 hidden md:block">
-        <div class="cursor-pointer mb-4">
-            <div class="bg-indigo-lighter opacity-25 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
-                N
-            </div>
-            <div class="text-center text-white opacity-50 text-sm">&#8984; 1</div>
-        </div>
-        <div class="cursor-pointer">
-            <div class="bg-white opacity-25 h-12 w-12 flex items-center justify-center text-black text-2xl font-semibold rounded-lg mb-1 overflow-hidden">
-                <svg class="fill-current h-10 w-10 block" xmlns="http://www.w3.org/2000/svg" data-toggle="modal" data-target="#createChat" viewBox="0 0 20 20"><path d="M16 10c0 .553-.048 1-.601 1H11v4.399c0 .552-.447.601-1 .601-.553 0-1-.049-1-.601V11H4.601C4.049 11 4 10.553 4 10c0-.553.049-1 .601-1H9V4.601C9 4.048 9.447 4 10 4c.553 0 1 .048 1 .601V9h4.399c.553 0 .601.447.601 1z"/></svg>
-            </div>
-        </div>
-    </div>
-    <div class="bg-indigo-darker text-purple-lighter flex-none w-64 pb-6 hidden md:block">
-        <div class="text-white mb-2 mt-3 px-4 flex justify-between">
-            <div class="flex-auto">
-                <h1 class="font-semibold text-xl leading-tight mb-1 truncate">{{ instance === 'big.chat' ? 'nile.chat' : instance }}</h1>
-                <div class="flex items-center mb-6">
-                    <svg class="h-2 w-2 fill-current text-green mr-2" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
-                    <span class="text-white opacity-50 text-sm">{{user.name}}</span>
-                </div>
-            </div>
-            <div>
-						<!-- Button trigger modal -->
-								<svg
-									 width="20"
-									 height="20"
-									 viewBox="0 0 24 24"
-									 fill="none"
-									 stroke="currentColor"
-									 stroke-width="2"
-									 stroke-linecap="round"
-									 stroke-linejoin="round"
-									 class="feather feather-settings opacity-25"
-									 data-toggle="modal" data-target="#exampleModalCenter"
-									 >
-									 <path
-											style=""
-											d="m 15,12 a 3,3 0 0 1 -3,3 3,3 0 0 1 -3,-3 3,3 0 0 1 3,-3 3,3 0 0 1 3,3 z"
-											id="circle3725" />
-									 <path
-											d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
-											id="path3727" />
-								</svg>
-            </div>
-        </div>
-        <div class="mb-8">
-            <div class="px-4 mb-2 text-white flex justify-between items-center">
-                <div class="opacity-75">Channels</div>
-                <div>
-                    <svg v-on:click="newChannel = ''" class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
-                    </svg>
-                </div>
-            </div>
+	    <div class="bg-indigo-darker text-purple-lighter flex-1/2">
+	        <div class="text-white mb-2 mt-3 px-4 flex justify-between">
+	            <div class="flex-auto">
+	                <h1 class="font-semibold text-xl leading-tight mb-1 truncate">{{ instance === 'big.chat' ? 'nile.chat' : instance }}</h1>
+	                <div class="flex items-center mb-6">
+	                    <svg class="h-2 w-2 fill-current text-green mr-2" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
+	                    <span class="text-white opacity-50 text-sm">{{user.name}}</span>
+	                </div>
+	            </div>
+	            <div>
+							<!-- Button trigger modal -->
+									<svg
+										 width="20"
+										 height="20"
+										 viewBox="0 0 24 24"
+										 fill="none"
+										 stroke="currentColor"
+										 stroke-width="2"
+										 stroke-linecap="round"
+										 stroke-linejoin="round"
+										 class="feather feather-settings opacity-25"
+										 data-toggle="modal" data-target="#exampleModalCenter"
+										 >
+										 <path
+												style=""
+												d="m 15,12 a 3,3 0 0 1 -3,3 3,3 0 0 1 -3,-3 3,3 0 0 1 3,-3 3,3 0 0 1 3,3 z"
+												id="circle3725" />
+										 <path
+												d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+												id="path3727" />
+									</svg>
+	            </div>
+	        </div>
+	        <div class="mb-8">
+	            <div class="px-4 mb-2 text-white flex justify-between items-center">
+	                <div class="opacity-75">Channels</div>
+	                <div>
+	                    <svg v-on:click="newChannel = ''" class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+	                        <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
+	                    </svg>
+	                </div>
+	            </div>
 
-            <div v-for="channel in channels" v-on:click="selectChannel(channel)" v-bind:class="{ 'bg-teal-dark': selectedType === 'channel' && selected === channel.id }" class="py-1 px-4 text-white"># {{channel.name}}</div>
+	            <div v-for="channel in channels" v-on:click="selectChannel(channel)" v-bind:class="{ 'bg-teal-dark': selectedType === 'channel' && selected === channel.id }" class="py-1 px-4 text-white"># {{channel.name}}</div>
 
-			<div v-if="typeof newChannel === 'string'" class="bg-teal-dark py-1 px-4 text-white"># <input v-model="newChannel" v-on:keyup.13="createChannel" type="text"></div>
-        </div>
+				<div v-if="typeof newChannel === 'string'" class="bg-teal-dark py-1 px-4 text-white"># <input v-model="newChannel" v-on:keyup.13="createChannel" type="text"></div>
+	        </div>
 
-		<div class="mb-8">
-			<div class="px-4 mb-2 text-white flex justify-between items-center">
-				<div class="opacity-75">Streams</div>
+			<div class="mb-8">
+				<div class="px-4 mb-2 text-white flex justify-between items-center">
+					<div class="opacity-75">Streams</div>
 
-			</div>
-
-				<div
-					v-for="stream in streams"
-					v-on:click="selectStream(stream)"
-					v-bind:class="{ 'bg-teal-dark': selectedType === 'stream' && selected === stream.id }"
-
-					class="flex items-center py-1 px-4"
-				>
-	                <svg
-						class="h-2 w-2 fill-current text-green mr-2"
-						v-bind:class="{ 'text-white': selectedType === 'stream' && selected === stream.id }"
-						viewBox="0 0 20 20"
-					>
-						<circle cx="10" cy="10" r="10"></circle>
-					</svg>
-
-	                <span class="text-white opacity-75">{{stream.id}}</span>
-			</div>
-		</div>
-
-        <div class="mb-8">
-            <div class="px-4 mb-2 text-white flex justify-between items-center">
-                <div class="opacity-75">Direct Messages</div>
-                <div>
-                    <svg class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
-                    </svg>
-                </div>
-            </div>
-
-            <div v-for="directUser in users" v-if="directUser.id !== user.id" v-on:click="selectDirect(directUser)" v-bind:class="{ 'bg-teal-dark': selectedType === 'direct' && selected === directUser.id }" class="flex items-center py-1 px-4">
-                <svg class="h-2 w-2 fill-current text-green mr-2" v-bind:class="{ 'text-white': selectedType === 'direct' && selected === directUser.id }" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
-                <span class="text-white opacity-75">{{directUser.name}}</span>
-            </div>
-        </div>
-        <!--<div>
-            <div class="px-4 mb-2 text-white flex justify-between items-center">
-                <div class="opacity-75">Apps</div>
-                <div>
-                    <svg class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                        <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
-                    </svg>
-                </div>
-
-            </div>
-        </div>-->
-				<div class="flex px-3">
-						<button class="flex-grow hover:bg-white hover:text-black text-grey-lightest py-2 px-2 m-10 border rounded" data-toggle="modal" data-target="#inviteModal">
-						  Invite
-						</button>
 				</div>
-    </div>
-    <!-- Chat content -->
-	<Channel v-if="selectedType === 'channel'"
-		v-bind:channel="channels.find(channel => channel.id === selected)"
-		v-bind:channels="channels"
-		v-bind:directs="directs"
-		v-bind:searchResults="searchResults"
-		v-on:message="createMessage"
-		v-on:selected="handleSelected"
-		v-on:search="search"
-	></Channel>
 
-	<Direct v-if="selectedType === 'direct'"
-		v-bind:direct="directs.find(direct => direct.user.id === selected)"
-		v-bind:channels="channels"
-		v-bind:directs="directs"
-		v-bind:searchResults="searchResults"
-		v-on:message="createDirectMessage"
-		v-on:selected="handleSelected"
-		v-on:search="search"
-	></Direct>
+					<div
+						v-for="stream in streams"
+						v-on:click="selectStream(stream)"
+						v-bind:class="{ 'bg-teal-dark': selectedType === 'stream' && selected === stream.id }"
 
-	<Stream v-if="selectedType === 'stream'"
-		v-bind:stream="streams.find(stream => stream.id === selected)"
-	></Stream>
-</div>
+						class="flex items-center py-1 px-4"
+					>
+		                <svg
+							class="h-2 w-2 fill-current text-green mr-2"
+							v-bind:class="{ 'text-white': selectedType === 'stream' && selected === stream.id }"
+							viewBox="0 0 20 20"
+						>
+							<circle cx="10" cy="10" r="10"></circle>
+						</svg>
 
+		                <span class="text-white opacity-75">{{stream.id}}</span>
+				</div>
+			</div>
+
+	        <div class="mb-8">
+	            <div class="px-4 mb-2 text-white flex justify-between items-center">
+	                <div class="opacity-75">Direct Messages</div>
+	                <div>
+	                    <svg class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+	                        <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
+	                    </svg>
+	                </div>
+	            </div>
+
+	            <div v-for="directUser in users" v-if="directUser.id !== user.id" v-on:click="selectDirect(directUser)" v-bind:class="{ 'bg-teal-dark': selectedType === 'direct' && selected === directUser.id }" class="flex items-center py-1 px-4">
+	                <svg class="h-2 w-2 fill-current text-green mr-2" v-bind:class="{ 'text-white': selectedType === 'direct' && selected === directUser.id }" viewBox="0 0 20 20"><circle cx="10" cy="10" r="10"></circle></svg>
+	                <span class="text-white opacity-75">{{directUser.name}}</span>
+	            </div>
+	        </div>
+	        <!--<div>
+	            <div class="px-4 mb-2 text-white flex justify-between items-center">
+	                <div class="opacity-75">Apps</div>
+	                <div>
+	                    <svg class="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+	                        <path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
+	                    </svg>
+	                </div>
+
+	            </div>
+	        </div>-->
+					<div class="flex px-3">
+							<button class="flex-grow hover:bg-white hover:text-black text-grey-lightest py-2 px-2 m-10 border rounded" data-toggle="modal" data-target="#inviteModal">
+							  Invite
+							</button>
+					</div>
+	    </div>
+	    <!-- Chat content -->
+
+		<div class="w-1/2">
+			<Channel v-if="selectedType === 'channel'"
+				v-bind:channel="channels.find(channel => channel.id === selected)"
+				v-bind:channels="channels"
+				v-bind:directs="directs"
+				v-bind:searchResults="searchResults"
+				v-on:message="createMessage"
+				v-on:selected="handleSelected"
+				v-on:search="search"
+			></Channel>
+
+			<Direct v-if="selectedType === 'direct'"
+				v-bind:direct="directs.find(direct => direct.user.id === selected)"
+				v-bind:channels="channels"
+				v-bind:directs="directs"
+				v-bind:searchResults="searchResults"
+				v-on:message="createDirectMessage"
+				v-on:selected="handleSelected"
+				v-on:search="search"
+			></Direct>
+
+			<Stream v-if="selectedType === 'stream'"
+				v-bind:stream="streams.find(stream => stream.id === selected)"
+			></Stream>
+		</div>
 	</div>
 </template>
 
 <script>
-const socket = require('socket.io-client')(location.origin);
+const Socket = require('socket.io-client');
 
 const Channel = require('./Channel.vue');
 const Direct = require('./Direct.vue');
@@ -162,6 +148,7 @@ module.exports = {
 		'instance'
 	],
 	data: () => ({
+		socket: Socket(location.origin),
 		user: {},
 		users: [],
 		newChannel: false,
@@ -174,7 +161,7 @@ module.exports = {
 	}),
 	methods: {
 		createChannel() {
-			socket.emit('channel', this.newChannel);
+			this.socket.emit('channel', this.newChannel);
 			this.newChannel = false;
 		},
 		selectChannel(channel) {
@@ -198,17 +185,17 @@ module.exports = {
 			this.selected = user.id;
 		},
 		createMessage(text) {
-			socket.emit('message', this.selected, text);
+			this.socket.emit('message', this.selected, text);
 		},
 		createDirectMessage(user, text) {
-			socket.emit('direct-message', user.id, text);
+			this.socket.emit('direct-message', user.id, text);
 		},
 		handleSelected(type, id) {
 			this.selectedType = type;
 			this.selected = id;
 		},
 		search(query) {
-			socket.emit('search-query', query);
+			this.socket.emit('search-query', query);
 		},
 		selectStream(stream) {
 			this.selectedType = 'stream';
@@ -218,7 +205,7 @@ module.exports = {
 	created() {
 		Notification.requestPermission();
 
-		socket.on('channel', channel => {
+		this.socket.on('channel', channel => {
 			this.channels.push(channel);
 
 			if(this.selected === null) {
@@ -227,11 +214,11 @@ module.exports = {
 			}
 		});
 
-		socket.on('direct-messages', directs => {
+		this.socket.on('direct-messages', directs => {
 			this.directs = directs;
 		});
 
-		socket.on('direct-message', message => {
+		this.socket.on('direct-message', message => {
 			this.createDirect(message.from.id === this.user.id ? message.to.id : message.from.id);
 
 			this.directs
@@ -250,7 +237,7 @@ module.exports = {
 			}
 		});
 
-		socket.on('message', (message, isNew) => {
+		this.socket.on('message', (message, isNew) => {
 			message.preview = null;
 
 			this.channels
@@ -269,7 +256,7 @@ module.exports = {
 			}
 		});
 
-		socket.on('message-preview', (instance, channelId, messageId, preview) => {
+		this.socket.on('message-preview', (instance, channelId, messageId, preview) => {
 			this.channels
 				.find(channel => channel.id === channelId)
 				.messages
@@ -277,21 +264,21 @@ module.exports = {
 					.preview = preview;
 		});
 
-		socket.emit('init', this.instance, localStorage.getItem(`user-key:${this.instance}`));
+		this.socket.emit('init', this.instance, localStorage.getItem(`user-key:${this.instance}`));
 
-		socket.on('user', user => {
+		this.socket.on('user', user => {
 			this.user = user;
 		});
 
-		socket.on('online', online => {
+		this.socket.on('online', online => {
 			this.users = online;
 		});
 
-		socket.on('streams', streams => {
+		this.socket.on('streams', streams => {
 			this.streams = streams;
 		});
 
-		socket.on('chunk', chunk => {
+		this.socket.on('chunk', chunk => {
 			console.log(chunk);
 
 			this.streams
@@ -299,7 +286,7 @@ module.exports = {
 				.chunks.push(chunk);
 		});
 
-		socket.on('online-user', (user, status) => {
+		this.socket.on('online-user', (user, status) => {
 			if(status === true) {
 				this.users.push(user);
 			} else {
@@ -307,15 +294,15 @@ module.exports = {
 			}
 		});
 
-		socket.on('user-key', userKey => {
+		this.socket.on('user-key', userKey => {
 			localStorage.setItem(`user-key:${this.instance}`, userKey);
 		});
 
-		socket.on('search-results', results => {
+		this.socket.on('search-results', results => {
 			this.searchResults = results;
 		});
 
-		socket.on('disconnect', () => {
+		this.socket.on('disconnect', () => {
 			setTimeout(() => location.reload(), 30 * 1000);
 		});
 	},
