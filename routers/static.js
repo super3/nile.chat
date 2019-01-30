@@ -4,6 +4,7 @@ const Renderer = require('vue-server-renderer');
 const Router = require('koa-router');
 const Vue = require('vue');
 
+const redis = require('../lib/redis');
 const Archive = require('./Archive');
 const Channel = require('../lib/Channel');
 const Message = require('../lib/Message');
@@ -15,7 +16,7 @@ const renderer = Renderer.createRenderer({
 });
 
 router.get('/sitemap.xml', async ctx => {
-	const instances = [ 'big.chat' ];
+	const instances = await redis.smembers('instances');
 
 	const links = [{
 		location: '/',
@@ -28,12 +29,14 @@ router.get('/sitemap.xml', async ctx => {
 		for(const id of await Channel.findIds(instance)) {
 			const lastMessage = await Message.getLast(instance, id);
 
-			links.push({
-				location: `/archive/${instance}/channel/${id}`,
-				modified: lastMessage ? new Date(+lastMessage.date) : new Date(),
-				change: 'daily',
-				priority: 1
-			});
+			if(lastMessage) {
+				links.push({
+					location: `/archive/${instance}/channel/${id}`,
+					modified: lastMessage ? new Date(+lastMessage.date) : new Date(),
+					change: 'daily',
+					priority: 1
+				});
+			}
 		}
 	}
 

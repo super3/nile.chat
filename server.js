@@ -50,6 +50,8 @@ const io = new Socket(server);
 io.on('connection', socket => {
 	// eslint-disable-next-line no-use-before-define
 	socket.on('init', async (instance, userKey) => {
+		await redis.sadd(`instances`, instance);
+
 		const sub = new Redis(process.env.REDIS_URL);
 
 		const subscribe = async (channel, handler) => {
