@@ -23,7 +23,7 @@
 				</div>
 			</div>
 
-			<Dash v-for="instance in instances" v-bind:instance="instance"></Dash>
+		<Dash v-for="instance in instances" v-bind:instance="instance"></Dash>
 	</div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
-	<div class="flex flex-col bg-white overflow-hidden">
+	<div class="flex-1 flex">
 
-	    <div class="bg-indigo-darker text-purple-lighter flex-1/2">
+	    <div class="bg-indigo-darker text-purple-lighter mb-4">
 	        <div class="text-white mb-2 mt-3 px-4 flex justify-between">
 	            <div class="flex-auto">
 	                <h1 class="font-semibold text-xl leading-tight mb-1 truncate">{{ instance === 'big.chat' ? 'nile.chat' : instance }}</h1>
@@ -108,7 +108,7 @@
 	    </div>
 	    <!-- Chat content -->
 
-		<div class="w-1/2">
+		<div class="mb-8">
 			<Channel v-if="selectedType === 'channel'"
 				v-bind:channel="channels.find(channel => channel.id === selected)"
 				v-bind:channels="channels"
