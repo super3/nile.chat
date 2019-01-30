@@ -1,7 +1,7 @@
 <template>
-	<div class="flex-1 flex">
+	<div class="flex-1 flex mb-4">
 
-	    <div class="bg-indigo-darker text-purple-lighter mb-4">
+	    <div class="bg-indigo-darker text-purple-lighter w-4/12">
 	        <div class="text-white mb-2 mt-3 px-4 flex justify-between">
 	            <div class="flex-auto">
 	                <h1 class="font-semibold text-xl leading-tight mb-1 truncate">{{ instance === 'big.chat' ? 'nile.chat' : instance }}</h1>
@@ -49,7 +49,7 @@
 				<div v-if="typeof newChannel === 'string'" class="bg-teal-dark py-1 px-4 text-white"># <input v-model="newChannel" v-on:keyup.13="createChannel" type="text"></div>
 	        </div>
 
-			<div class="mb-8">
+			<div class="sm-8">
 				<div class="px-4 mb-2 text-white flex justify-between items-center">
 					<div class="opacity-75">Streams</div>
 
@@ -108,7 +108,7 @@
 	    </div>
 	    <!-- Chat content -->
 
-		<div class="mb-8">
+		<div class="w-4/12">
 			<Channel v-if="selectedType === 'channel'"
 				v-bind:channel="channels.find(channel => channel.id === selected)"
 				v-bind:channels="channels"
