@@ -3,11 +3,11 @@ const relativeDate = require('relative-date');
 
 module.exports = Vue.component('archive', {
 	template: `
-	<div class="flex-1 flex flex-col bg-white overflow-hidden">
+	<div class="flex-1 flex flex-col bg-white overflow-hidden" itemscope itemtype="http://schema.org/Conversation">
         <!-- Top bar -->
         <div class="border-b flex px-6 py-2 items-center flex-none">
             <div class="flex flex-col">
-                <h3 class="text-grey-darkest mb-1 font-extrabold hidden md:block">#{{channel.name}}</h3>
+                <h3 class="text-grey-darkest mb-1 font-extrabold hidden md:block" itemprop="name">#{{channel.name}}</h3>
 								<div class="inline-block relative w-64 block md:hidden">
 
 								  <div class="pointer-events-none absolute pin-y pin-r flex items-center px-2 text-grey-darker">
@@ -21,16 +21,22 @@ module.exports = Vue.component('archive', {
         </div>
         <!-- Chat messages -->
         <div v-on:scroll="scroll" class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
-			<div v-for="message in channel.messages">
+			<div v-for="message in channel.messages" itemscope itemprop="hasPart" itemtype="http://schema.org/Message">
 				<div class="flex items-start mb-4 text-sm">
 					<img v-bind:src="(message.user).avatar || 'https://api.adorable.io/avatars/285/' + message.user.id" class="w-10 h-10 rounded mr-3">
 
 					<div class="w-full overflow-hidden">
 						<div>
-							<span class="font-bold">{{(message.user || message.from).name}}</span>
-							<span class="text-grey text-xs">{{message.date | relativeDate}}</span>
+							<span class="font-bold" itemprop="sender" itemtype="http://schema.org/Person">
+								<span itemprop="name">{{(message.user || message.from).name}}</span>
+							</span>
+
+							<span class="text-grey text-xs" itemprop="dateSent">{{message.date | relativeDate}}</span>
 						</div>
-						<p class="text-black leading-normal" v-html="sanitize(message.text)"></p>
+
+						<p class="text-black leading-normal" itemscope itemprop="about" itemtype="http://schema.org/Thing">
+							<span v-html="sanitize(message.text)" itemprop="name"></span>
+						</p>
 					</div>
 
 					<div class="w-full overflow-hidden" v-if="message.preview">

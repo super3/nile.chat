@@ -306,6 +306,9 @@ module.exports = {
 			setTimeout(() => location.reload(), 30 * 1000);
 		});
 	},
+	destroyed() {
+		this.socket.disconnect();
+	},
 	components: {
 		Channel,
 		Direct,
