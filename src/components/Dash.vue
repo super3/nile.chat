@@ -137,28 +137,50 @@
 </template>
 
 <script>
-const Socket = require('socket.io-client');
-
 const Channel = require('./Channel.vue');
 const Direct = require('./Direct.vue');
 const Stream = require('./Stream.vue');
 
 module.exports = {
 	props: [
-		'instance'
+		'state'
 	],
+	computed: {
+		instance() {
+			return this.state.instance;
+		},
+		socket() {
+			return this.state.socket;
+		},
+		user() {
+			return this.state.user;
+		},
+		users() {
+			return this.state.users;
+		},
+		channels() {
+			return this.state.channels;
+		},
+		streams() {
+			return this.state.streams;
+		},
+		directs() {
+			return this.state.directs;
+		},
+		searchResults() {
+			return this.state.searchResults;
+		}
+	},
 	data: () => ({
-		socket: Socket(location.origin),
-		user: {},
-		users: [],
 		newChannel: false,
 		selectedType: null,
-		selected: null,
-		channels: [],
-		streams: [],
-		directs: [],
-		searchResults: []
+		selected: null
 	}),
+	watch: {
+		state() {
+			Object.assign(this.$data, this.$options.data.apply(this));
+		}
+	},
 	methods: {
 		createChannel() {
 			this.socket.emit('channel', this.newChannel);
@@ -204,110 +226,6 @@ module.exports = {
 	},
 	created() {
 		Notification.requestPermission();
-
-		this.socket.on('channel', channel => {
-			this.channels.push(channel);
-
-			if(this.selected === null) {
-				this.selectedType = 'channel';
-				this.selected = channel.id;
-			}
-		});
-
-		this.socket.on('direct-messages', directs => {
-			this.directs = directs;
-		});
-
-		this.socket.on('direct-message', message => {
-			this.createDirect(message.from.id === this.user.id ? message.to.id : message.from.id);
-
-			this.directs
-				.find(direct => direct.user.id !== this.user.id && (direct.user.id === message.from.id || direct.user.id === message.to.id))
-				.messages
-					.push(message);
-
-			if(message.from.id !== this.user.id) {
-				const notification = new Notification('nile.chat', {
-					body: `@${message.from.name} sent you a direct message`
-				});
-
-				notification.onclick = () => {
-					this.selectDirect(message.from);
-				};
-			}
-		});
-
-		this.socket.on('message', (message, isNew) => {
-			message.preview = null;
-
-			this.channels
-				.find(channel => channel.id === message.channel)
-				.messages
-					.push(message);
-
-			if(isNew === true) {
-				const needle = `@${this.user.name.toLowerCase()}`;
-
-				if(message.text.toLowerCase().includes(needle) === true) {
-					new Notification('nile.chat', {
-						body: `@${message.user.name} mentioned you`
-					});
-				}
-			}
-		});
-
-		this.socket.on('message-preview', (instance, channelId, messageId, preview) => {
-			this.channels
-				.find(channel => channel.id === channelId)
-				.messages
-					.find(message => message.id === messageId)
-					.preview = preview;
-		});
-
-		this.socket.emit('init', this.instance, localStorage.getItem(`user-key:${this.instance}`));
-
-		this.socket.on('user', user => {
-			this.user = user;
-		});
-
-		this.socket.on('online', online => {
-			this.users = online;
-		});
-
-		this.socket.on('streams', streams => {
-			this.streams = streams;
-		});
-
-		this.socket.on('chunk', chunk => {
-			console.log(chunk);
-
-			this.streams
-				.find(stream => stream.id == chunk.stream)
-				.chunks.push(chunk);
-		});
-
-		this.socket.on('online-user', (user, status) => {
-			if(status === true) {
-				this.users.push(user);
-			} else {
-				this.users = this.users.filter(u => u.id !== user.id);
-			}
-		});
-
-		this.socket.on('user-key', userKey => {
-			localStorage.setItem(`user-key:${this.instance}`, userKey);
-		});
-
-		this.socket.on('search-results', results => {
-			this.searchResults = results;
-		});
-
-		this.socket.on('disconnect', () => {
-			setTimeout(() => location.reload(), 30 * 1000);
-		});
-	},
-	destroyed() {
-		this.socket.disconnect();
 	},
 	components: {
 		Channel,
