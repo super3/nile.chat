@@ -147,6 +147,9 @@ module.exports = {
 				setTimeout(() => location.reload(), 30 * 1000);
 			});
 		}).call(instance) });
+
+		if(this.instances.length > 0)
+			this.instance = this.instances[0];
 	}
 };
 </script>
