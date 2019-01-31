@@ -178,6 +178,8 @@ module.exports = {
 	}),
 	watch: {
 		state() {
+			// reset state on new instance
+
 			Object.assign(this.$data, this.$options.data.apply(this));
 		}
 	},
