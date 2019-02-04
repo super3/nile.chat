@@ -26,7 +26,9 @@
             </div>
         </div>
         <!-- Chat messages -->
-        <div v-on:scroll="scroll" class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
+        <div v-on:scroll="scroll" class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat" style="
+    height: 85vh !important;
+">
 			<div v-for="message in direct.messages">
 				<Message v-bind:message="message"></Message>
 			</div>
