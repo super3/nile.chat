@@ -47,7 +47,7 @@
     "coveralls": "^3.0.2",
     "xo": "^0.24.0",
     "istanbul": "^1.1.0-alpha.1",
-    "mocha": "^6.0.0"
+    "mocha": "^6.0.1"
   },
   "xo": {
     "globals": [
