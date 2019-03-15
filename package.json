@@ -39,7 +39,7 @@
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "vue": "^2.6.9",
-    "vue-server-renderer": "2.6.8",
+    "vue-server-renderer": "2.6.9",
     "vueify": "^9.4.1",
     "watchify": "^3.11.1"
   },
