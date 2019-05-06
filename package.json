@@ -8,8 +8,9 @@
     "testsuite": "./node_modules/.bin/mocha test/* --recursive --exit",
     "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- -R spec --exit",
     "linter": "xo",
-    "prepare": "browserify -t vueify -e src/index.js | babel-minify --mangle false > public/bundle.js",
-    "dev": "watchify -t vueify -e src/index.js -o public/bundle.js"
+    "prepare": "npm run snyk-protect; browserify -t vueify -e src/index.js | babel-minify --mangle false > public/bundle.js",
+    "dev": "watchify -t vueify -e src/index.js -o public/bundle.js",
+    "snyk-protect": "snyk protect"
   },
   "repository": {
     "type": "git",
@@ -41,7 +42,8 @@
     "vue": "^2.6.10",
     "vue-server-renderer": "2.6.10",
     "vueify": "^9.4.1",
-    "watchify": "^3.11.1"
+    "watchify": "^3.11.1",
+    "snyk": "^1.161.1"
   },
   "devDependencies": {
     "coveralls": "^3.0.3",
@@ -67,5 +69,6 @@
       "keyword-spacing": "off",
       "require-atomic-updates": "off"
     }
-  }
+  },
+  "snyk": true
 }
