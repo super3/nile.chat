@@ -44,7 +44,7 @@
     "watchify": "^3.11.1"
   },
   "devDependencies": {
-    "coveralls": "^3.0.5",
+    "coveralls": "^3.0.6",
     "xo": "^0.24.0",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^6.2.0"
