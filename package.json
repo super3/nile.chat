@@ -28,7 +28,7 @@
   "dependencies": {
     "axios": "^0.19.0",
     "babel-minify": "^0.5.0",
-    "browserify": "^16.3.0",
+    "browserify": "^16.4.0",
     "dog-names": "^2.0.0",
     "ioredis": "^4.14.0",
     "koa": "^2.7.0",
