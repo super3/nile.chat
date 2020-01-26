@@ -228,6 +228,10 @@ module.exports = {
 	},
 	created() {
 		Notification.requestPermission();
+
+		if(this.channels.length > 0) {
+			this.selectChannel(this.channels[0]);
+		}
 	},
 	components: {
 		Channel,
