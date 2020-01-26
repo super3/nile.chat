@@ -108,7 +108,7 @@
 </div>
 <!-- Chat content -->
 
-<div class="w-4/5 h-full">
+<div class="w-4/5 h-full overflow-y-scroll">
 	<Channel v-if="selectedType === 'channel'"
 	v-bind:channel="channels.find(channel => channel.id === selected)"
 	v-bind:channels="channels"
