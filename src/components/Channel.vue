@@ -55,9 +55,7 @@
         <div v-on:scroll="scroll" class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat" style="
     height: 85vh !important;
 ">
-			<div v-for="message in channel.messages">
-				<Message v-bind:message="message"></Message>
-			</div>
+			<Message v-for="message in channel.messages" v-bind:message="message"></Message>
         </div>
 
 		<div class="pb-6 px-4 flex-none">
