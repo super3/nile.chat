@@ -181,6 +181,11 @@ module.exports = {
 			// reset state on new instance
 
 			Object.assign(this.$data, this.$options.data.apply(this));
+		},
+		channels() {
+			if(this.channels.length > 0) {
+				this.selectChannel(this.channels[0]);
+			}
 		}
 	},
 	methods: {
@@ -228,10 +233,6 @@ module.exports = {
 	},
 	created() {
 		Notification.requestPermission();
-
-		if(this.channels.length > 0) {
-			this.selectChannel(this.channels[0]);
-		}
 	},
 	components: {
 		Channel,
