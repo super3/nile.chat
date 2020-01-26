@@ -39,12 +39,12 @@ module.exports = {
 	computed: {
 		text() {
 			const text = escape(this.message.text)
-				.replace(new RegExp('\n', 'g'), '<br>');
+			.replace(new RegExp('\n', 'g'), '<br>');
 
 			function isValidURL(str) {
-			   var a  = document.createElement('a');
-			   a.href = str;
-			   return (a.host && a.host != window.location.host);
+				var a  = document.createElement('a');
+				a.href = str;
+				return (a.host && a.host != window.location.host);
 			}
 
 			return text.trim().split(' ').map(word => {
