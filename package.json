@@ -30,7 +30,7 @@
     "babel-minify": "^0.5.1",
     "browserify": "^16.5.0",
     "dog-names": "^2.0.0",
-    "ioredis": "^4.14.1",
+    "ioredis": "^4.16.0",
     "koa": "^2.11.0",
     "koa-router": "^8.0.8",
     "koa-static": "^5.0.0",
