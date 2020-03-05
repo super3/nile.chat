@@ -10,7 +10,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
+		<div class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat" v-on:scroll="scroll">
 			<div v-for="chunk in stream.chunks">
 				<!--<h4>{{source}} {{chunk.type}}</h4>-->
 
@@ -34,6 +34,23 @@ const relativeDate = require('relative-date');
 module.exports = {
 	props: [
 		"stream"
-	]
+	],
+	data: () => ({
+		docked: true
+	}),
+	methods: {
+		scroll() {
+			this.docked = this.$refs.chat.scrollTop === (this.$refs.chat.scrollHeight - this.$refs.chat.offsetHeight);
+
+			if(this.docked === true) {
+				this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+			}
+		},
+	},
+	updated() {
+		if(this.docked === true) {
+			this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
+		}
+	}
 };
 </script>
