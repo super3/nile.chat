@@ -12,7 +12,7 @@
 		</div>
 		<div class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat">
 			<div v-for="chunk in stream.chunks">
-				<h4>{{source}} {{chunk.type}}</h4>
+				<!--<h4>{{source}} {{chunk.type}}</h4>-->
 
 				{{chunk.content}}
 			</div>
