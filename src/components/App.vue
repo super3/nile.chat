@@ -35,8 +35,8 @@ module.exports = {
 	created() {
 		this.instances = [
 			'nile.chat',
-			'crypto.chat',
-			'gitbackup.org'
+			'gitbackup.org',
+			'yacdn.org'
 		].map(instance => ({
 			instance,
 			socket: Socket(location.origin),
