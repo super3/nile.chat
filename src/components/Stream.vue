@@ -47,6 +47,9 @@ module.exports = {
 			}
 		},
 	},
+	mounted() {
+		this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight - this.$refs.chat.offsetHeight;
+	},
 	updated() {
 		if(this.docked === true) {
 			this.$refs.chat.scrollTop = this.$refs.chat.scrollHeight;
