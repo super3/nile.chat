@@ -73,6 +73,7 @@
 		<!-- Chat content -->
 
 		<Channel v-if="selectedType === 'channel'" v-bind:channel="channels.find(channel => channel.id === selected)" v-bind:channels="channels" v-bind:directs="directs" v-bind:searchResults="searchResults" v-on:message="createMessage" v-on:selected="handleSelected" v-on:search="search"></Channel>
+		<Stream v-if="selectedType === 'stream'" v-bind:stream="streams.find(stream => stream.id === selected)" v-bind:searchResults="searchResults" v-on:selected="handleSelected" v-on:search="search"></Stream>
 
 		<!--
 		<div class="w-4/5 h-full overflow-y-scroll">
