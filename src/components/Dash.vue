@@ -118,10 +118,10 @@ module.exports = {
 			return this.state.users;
 		},
 		channels() {
-			return this.state.channels;
+			return this.state.channels.sort((a, b) => a.name -s b.name);
 		},
 		streams() {
-			return this.state.streams;
+			return this.state.streams.sort((a, b) => a.name -s b.name);
 		},
 		directs() {
 			return this.state.directs;
