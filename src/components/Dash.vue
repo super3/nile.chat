@@ -121,7 +121,7 @@ module.exports = {
 			return this.state.channels.sort((a, b) => a.name - b.name);
 		},
 		streams() {
-			return this.state.streams.sort((a, b) => a.name - b.name);
+			return this.state.streams.sort((a, b) => a.id - b.id);
 		},
 		directs() {
 			return this.state.directs;
