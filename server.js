@@ -101,8 +101,8 @@ io.on('connection', socket => {
 		socket.emit('online', await User.findOnline(instance));
 		socket.emit('streams', await Chunk.getStreams(instance));
 
-		subscribe(`${instance}:chunk`, async (stream, id) => {
-			socket.emit('chunk', await Chunk.get(instance, stream, id));
+		subscribe(`${instance}:chunk`, async (stream, chunk) => {
+			socket.emit('chunk', chunk);
 		});
 
 		await user.goOnline();
