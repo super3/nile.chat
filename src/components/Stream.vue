@@ -13,7 +13,7 @@
 		<div class="px-6 py-4 flex-1 overflow-y-scroll" ref="chat" v-on:scroll="scroll">
 			<div v-for="chunk in stream.chunks">
 				<!--<h4>{{source}} {{chunk.type}}</h4>-->
-
+				<strong>{{(new Date(chunk.date)).toLocaleString()}}</strong>
 				{{chunk.content}}
 			</div>
 		</div>
