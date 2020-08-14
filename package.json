@@ -33,7 +33,7 @@
     "dog-names": "^2.0.0",
     "ioredis": "^4.17.3",
     "koa": "^2.13.0",
-    "koa-router": "^9.1.0",
+    "koa-router": "^9.4.0",
     "koa-static": "^5.0.0",
     "mz": "^2.7.0",
     "relative-date": "^1.1.3",
