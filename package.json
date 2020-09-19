@@ -29,7 +29,7 @@
     "axios": "^0.20.0",
     "babel-minify": "^0.5.1",
     "browserify": "^16.5.2",
-    "debug": "^4.1.1",
+    "debug": "^4.2.0",
     "dog-names": "^2.0.0",
     "ioredis": "^4.17.3",
     "koa": "^2.13.0",
