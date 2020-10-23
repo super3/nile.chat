@@ -31,7 +31,7 @@
     "browserify": "^17.0.0",
     "debug": "^4.2.0",
     "dog-names": "^2.0.0",
-    "ioredis": "^4.17.3",
+    "ioredis": "^4.19.0",
     "koa": "^2.13.0",
     "koa-router": "^9.4.0",
     "koa-static": "^5.0.0",
