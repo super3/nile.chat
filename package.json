@@ -47,7 +47,7 @@
   },
   "devDependencies": {
     "coveralls": "^3.1.0",
-    "xo": "^0.35.0",
+    "xo": "^0.36.0",
     "istanbul": "^1.1.0-alpha.1",
     "mocha": "^8.2.1"
   },
