@@ -43,7 +43,7 @@
     "vue-router": "^3.5.1",
     "vue-server-renderer": "2.6.12",
     "vueify": "^9.4.1",
-    "watchify": "^3.11.1"
+    "watchify": "^4.0.0"
   },
   "devDependencies": {
     "coveralls": "^3.1.0",
